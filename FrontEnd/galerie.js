@@ -4,7 +4,9 @@
 fetch("http://localhost:5678/api/works")
     .then( reponse => reponse.json())
     .then( data => {
+        //Créer boucle pour lister les projets
         for (let i=0; i<data.length; i++){
+            //Déclarer la variable article
             const article = data[i];
             //Récupération de l'élément du DOM qui accueillera les articles
             const gallery = document.querySelector(".gallery");
