@@ -1,13 +1,12 @@
-//Récupération des catégories en appelant l' API categories
-/* fetch("http://localhost:5678/api/categories"); */
-//Récupération des projets en appelant l' API works
-fetch("http://localhost:5678/api/works")
-    .then( reponse => reponse.json())
-    .then( data => {
+async function recupTravaux() {
+    const reponse = await fetch("http://localhost:5678/api/works");
+    const travaux = await reponse.json();
+    travaux.forEach(article => {        
+   
         //Créer boucle pour lister les projets
-        for (let i=0; i<data.length; i++){
+       
             //Déclarer la variable article
-            const article = data[i];
+           
             //Récupération de l'élément du DOM qui accueillera les articles
             const gallery = document.querySelector(".gallery");
             //Création de la balise figure
@@ -26,8 +25,8 @@ fetch("http://localhost:5678/api/works")
             figure.appendChild(img); 
             figure.appendChild(figcaption);
                   
-        }
-    })     
-
-
+        })
+        console.log(travaux);
+}
+recupTravaux();
 
