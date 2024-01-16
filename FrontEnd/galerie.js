@@ -1,3 +1,4 @@
+/* Fonction qui permettra de modifier le DOM une fois appelée */
 function afficherGallery (tableTravaux){
 
     /* Rafraichissement de la page pour éviter le rajout à la suite */
@@ -24,6 +25,7 @@ function afficherGallery (tableTravaux){
             });
 };
 
+/* Fonction qui déselectionne tous les boutons tout en conservant leur style */
 function styleBtnFiltreActif() {
     const listeBtn = document.getElementsByClassName("btn");
     for (let i=0; i<listeBtn.length; i++){		
@@ -31,15 +33,17 @@ function styleBtnFiltreActif() {
 		listeBtn[0].className="btn btn__tous";
         listeBtn[1].className="btn btn__objets";
         listeBtn[2].className="btn btn__appartements";
-        listeBtn[3].className="btn btn__hotel";
+        listeBtn[3].className="btn btn__hotel";        
 }};
 
+/* Fonction asynchrone qui récupère les éléments de l'API works */
 async function recupTravaux() {
     const reponse = await fetch ("http://localhost:5678/api/works");
     const travaux = await reponse.json();  
     
-    console.log(travaux);   
-    
+    console.log(travaux); 
+
+/* Rappel fonction "afficherGallery" qui prépare la modification du DOM avec les éléments de l'API*/   
     afficherGallery(travaux);
         
     
@@ -98,22 +102,5 @@ const btnHotel = document.querySelector(".btn__hotel");
  });  
 
  };
-
+/* Rappel de la fonction pour réaliser la modification du DOM */
 recupTravaux();
-
- 
-
-
-/* document.querySelector(".fiches").innerHTML = ''; */
-
-
-
-
- 
-
-
-
-
-
-
-
