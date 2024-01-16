@@ -24,7 +24,7 @@ function afficherGallery (tableTravaux){
             });
 };
 
-/* function styleBtnFiltreActif() {
+function styleBtnFiltreActif() {
     const listeBtn = document.getElementsByClassName("btn");
     for (let i=0; i<listeBtn.length; i++){		
 		console.log (listeBtn[i]);		
@@ -32,7 +32,7 @@ function afficherGallery (tableTravaux){
         listeBtn[1].className="btn btn__objets";
         listeBtn[2].className="btn btn__appartements";
         listeBtn[3].className="btn btn__hotel";
-}}; */
+}};
 
 async function recupTravaux() {
     const reponse = await fetch ("http://localhost:5678/api/works");
@@ -52,8 +52,8 @@ async function recupTravaux() {
         }) 
         console.log(listTous);
         afficherGallery(listTous);        
-        /* styleBtnFiltreActif();
-        btnTous.classList.add("btn__selected"); */  
+        styleBtnFiltreActif();
+        btnTous.classList.add("btn__selected");  
     });
     
     /* BOUTON FILTRE OBJETS */
@@ -66,8 +66,8 @@ async function recupTravaux() {
         });    
         console.log(listObjet);
         afficherGallery(listObjet);
-        /* styleBtnFiltreActif();
-        btnObjet.classList.add("btn__selected"); */                
+        styleBtnFiltreActif();
+        btnObjet.classList.add("btn__selected");                
     });
     
 
@@ -80,8 +80,8 @@ async function recupTravaux() {
         }) 
         console.log(listAppartement);
         afficherGallery(listAppartement);
-        /* styleBtnFiltreActif();
-        btnAppartement.classList.add("btn__selected"); */
+        styleBtnFiltreActif();
+        btnAppartement.classList.add("btn__selected");
     });
 
  /* BOUTON FILTRE HOTELS ET RESTAURANTS */
@@ -93,8 +93,8 @@ const btnHotel = document.querySelector(".btn__hotel");
      }) 
      console.log(listHotel);
      afficherGallery(listHotel);
-     /* styleBtnFiltreActif();
-     btnHotel.classList.add("btn__selected"); */ 
+     styleBtnFiltreActif();
+     btnHotel.classList.add("btn__selected"); 
  });  
 
  };
