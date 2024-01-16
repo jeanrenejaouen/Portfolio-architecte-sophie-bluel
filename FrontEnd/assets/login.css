@@ -201,19 +201,18 @@ input[type="submit"]{
 	border-radius: 60px ;
 }
 
-footer nav ul {   
+footer nav ul {	
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em;
-    
+	margin: 2em;    
 }
 
-footer {
+footer {	
     height: 60px;
     background-color: white;
     display: flex;
     justify-content: end;
-    align-items: center;
+    align-items: center;	
     margin-top: 355px;
     bottom: 0; 
 }
