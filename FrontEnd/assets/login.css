@@ -216,3 +216,9 @@ footer {
     margin-top: 355px;
     bottom: 0; 
 }
+
+#login-error {
+	display: flex;
+	justify-content: center;
+	margin-top: 50px;
+}
