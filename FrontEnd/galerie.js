@@ -9,6 +9,10 @@ function afficherGallery (tableTravaux){
                 const gallery = document.querySelector(".gallery");
                 //Création de la balise figure
                 const figure = document.createElement("figure");
+                //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
+                //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+                //Permettra de supprimer ou rajouter une image
+                figure.id = "figure"+article.id;
                 //Création de la balise figcaption
                 const figcaption = document.createElement("figcaption");
                 //Création de la balise img (image)

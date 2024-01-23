@@ -10,6 +10,7 @@
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="galerie.js" defer></script>
+	<script src="modal.js" defer></script>
 		
 </head>
 <body>
@@ -41,11 +42,16 @@
 		
 
 		<h2>Mes Projets
-
-			<a href="#modal1">modifier</a>
-			<aside id="modal1" class="modal" aria-hidden="true">
-				<div class="modal-wrapper">
-
+			
+			<a href="#modal1" class="js-modal">modifier</a>
+			<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-disabled="titlemodal" style="display: none;">
+				<div class="modal-wrapper js-modal-stop">
+					<!-- <button><i class="  fa-regular fa-rectangle-xmark"></i></button> -->
+					<i class="js-modal-close fa-solid fa-xmark"></i>
+					
+					<h1 id="titlemodal">Galerie photo</h1>
+					
+					<input type="submit" value="Ajouter une photo">							
 				</div>
 			</aside>
 
@@ -57,10 +63,9 @@
 			<li class="btn btn__appartements">Appartements</li>
 			<li class="btn btn__hotel">Hôtels & restaurants</li>			
 		</ul>
-		<div class="gallery">
-			
-			
-		</div>
+
+		<div class="gallery"></div>
+
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
