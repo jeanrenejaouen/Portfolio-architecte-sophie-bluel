@@ -49,7 +49,11 @@ submitBtn.addEventListener("click", async (e) => {
     .then((reponse)=>reponse.json())
     .then((data)=>{
         console.log(data)
+
+        //Vu avec frederic le 23 01 2024 
+        //Retourne le message en cas de mauvais mail ou mot passe
         console.log(data.message)
+        //Retourne le token quand le couple email mot de passe est ok
         console.log(data.token)
     });
     /* const user = await reponse.json(); */ 
@@ -64,7 +68,7 @@ submitBtn.addEventListener("click", async (e) => {
     else {  
     // Afficher un message d'erreur si l'email ou le mot de passe est incorrect
     document.getElementById('login-error').textContent = 'Erreur dans l’identifiant ou le mot de passe';
-    document.getElementById('login-error').style.color = "red"; 
+    
     
   }
   

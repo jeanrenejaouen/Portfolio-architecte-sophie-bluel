@@ -3,6 +3,7 @@ function afficherGallery (tableTravaux){
 
     /* Rafraichissement de la page pour éviter le rajout à la suite */
     document.querySelector(".gallery").innerHTML = '';
+    document.querySelector(".miniature").innerHTML = '';
 
     tableTravaux.forEach(article => {                       
                 //Récupération de l'élément du DOM qui accueillera les articles
@@ -23,10 +24,20 @@ function afficherGallery (tableTravaux){
                 figcaption.innerText = article.title;     
                 //On rattache la balise figure a la balise (div class="gallery")
                 gallery.appendChild(figure);
+
+                //Récupération de l'élément du DOM qui accueillera les images
+                const miniature = document.querySelector(".miniature");
+                
+
                 //On rattache l'image et son texte à la balise figure
                 figure.appendChild(img); 
-                figure.appendChild(figcaption);               
+                figure.appendChild(figcaption); 
+
+                //On rattache le clone de l'image à la balise miniature
+                miniature.appendChild(img.cloneNode(true));               
+                
             });
+           
 };
 
 /* Fonction qui déselectionne tous les boutons tout en conservant leur style */

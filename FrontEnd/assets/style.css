@@ -135,8 +135,24 @@ li:hover {
 
 .gallery img {
 	width: 100%;
-
 }
+
+.miniature {
+	width: 40%;
+	margin-top: 46px;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 10px;
+	grid-row-gap: 25.72px;
+	padding-left: 105.2px;
+	padding-right: 105.2px;	
+}
+
+.miniature img {
+	width: 78px;
+	height: 104px;
+}
+
 #contact {
 	width: 50%;
 margin: auto;
@@ -241,15 +257,15 @@ footer nav ul {
 
 .modal-wrapper {
 	overflow: auto;
-	width: 600px;
+	width: 630px;
+	height: 568px;
 	border-radius: 10px;
 	position: relative;
 	max-width: calc(100vw - 20px);
-	max-height: calc(100vh - 20px);
+	max-height: calc(100vh - 20px);	
 	padding-top: 60px;
-	padding-bottom: 45px;
-	background-color: white;
-
+	padding-bottom: 60px;
+	background-color: white;			
 }
 
 #titlemodal {	
@@ -271,5 +287,6 @@ footer nav ul {
 
 .modal-wrapper input[type="submit"]{
 	width: 237px;
-	height: 36px;
+	height: 36px;		
 }
+
