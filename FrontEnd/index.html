@@ -9,8 +9,11 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css">
 	<script src="galerie.js" defer></script>
 	<script src="modal.js" defer></script>
+	
+	
 		
 </head>
 <body>
@@ -20,7 +23,7 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li><a href = "login.html">login</a></li>
+			<li><a id="nav-login" href = "login.html">login</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -37,29 +40,31 @@
 			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
 		</article>
 	</section>
-	<section id="portfolio">
 
-		
-
-		<h2>Mes Projets
-			
+	<section id="portfolio">		
+		<div class="folio">
+			<h2>Mes Projets</h2>
+			<i class="fa-regular fa-pen-to-square" style="display:none"></i>
 			<a href="#modal1" class="js-modal">modifier</a>
+		</div>	
 			<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-disabled="titlemodal" style="display: none;">
+				
 				<div class="modal-wrapper js-modal-stop">
-					<!-- <button><i class="  fa-regular fa-rectangle-xmark"></i></button> -->
+					<h1 id="titlemodal" class="title-modal">Galerie photo</h1>
+					<!-- <i class="  fa-regular fa-rectangle-xmark"></i> -->
 					<i class="js-modal-close fa-solid fa-xmark"></i>
 					
-					<h1 id="titlemodal">Galerie photo</h1>
-					<div class="miniature">
-						<div id="corbeille" class="corbeille">
-							<i class="fa-solid fa-trash-can"></i>
-						</div>
+					
+					<div id="corbeille" class="miniature corbeille">						
+						<!-- <i class="fa-solid fa-trash-can"></i> -->						
 					</div>
-					<input type="submit" value="Ajouter une photo">							
+					<div class="line"></div>
+					<input type="submit" value="Ajouter une photo">	
+										
 				</div>
 			</aside>
 
-		</h2>
+		
 
 		<ul class="filtres">
 			<li class="btn btn__tous btn__selected">Tous</li>

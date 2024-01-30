@@ -223,3 +223,7 @@ footer {
 	margin-top: 50px;
 	color: red;
 }
+
+#nav-login {
+	font-weight: 600;
+}
