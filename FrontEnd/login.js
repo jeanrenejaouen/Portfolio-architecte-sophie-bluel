@@ -45,7 +45,6 @@ submitBtn.addEventListener("click", async (e) => {
         //Retourne le message en cas de mauvais mail ou mot passe
         console.log(data.message);
         //Retourne le token quand le couple email mot de passe est ok        
-         
         console.log(data.token);
         
         const userId = data.userId

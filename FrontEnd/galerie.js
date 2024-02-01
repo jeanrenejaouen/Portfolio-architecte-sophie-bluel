@@ -16,19 +16,15 @@ function afficherGallery (tableTravaux){
 
     /* Rafraichissement de la page pour éviter le rajout à la suite */
     
-    document.querySelector(".miniature").innerHTML = '';
+    document.querySelector(".mini-gallery").innerHTML = '';
     //Récupération de l'élément du DOM qui accueillera les articles
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = '';
-    //Récupération de l'élément du DOM où on va intégrer divCorb
-    const corbeille = document.getElementById("corbeille"); 
-
+   
     tableTravaux.forEach(article => {            
                 
-                //Création de la balise figure
+                //Création de la balise mini-figure
                 const figure = document.createElement("figure");
-
-
                 //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
                 //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
                 //Permettra de supprimer ou rajouter une image
@@ -47,27 +43,46 @@ function afficherGallery (tableTravaux){
                 figure.appendChild(img); 
                 figure.appendChild(figcaption); 
 
+            
+                //Création de la balise mini-figure
+                const miniFigure = document.createElement("mini-figure");
+                //Rajouter classe à miniFigure
+                miniFigure.classList.add("mini-figure")                
+                //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+                //Permettra de supprimer ou rajouter une image
+                miniFigure.id = "miniFigure"+article.id;
+                //Création de la balise img (image)
+                const miniImg = document.createElement("mini-img");
+                //Création du clone de l'image
+                const cloneImg = img.cloneNode(true)
+                //Rajouter classe à cloneImg
+                cloneImg.classList.add("cloneImg");                    
+                //On rattache la balise miniFigure a la balise miniGallery
+                miniGallery.appendChild(miniFigure);
 
+                //On rattache le clone de l'image à la balise miniFigure
+                miniFigure.appendChild(cloneImg); 
+                
+                //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
+                const containIcon = document.createElement("span");
+                //Rajouter classe .corb à containIcon
+                containIcon.classList.add("corb");
+                //Intégrer containIcon à l'élément DOM miniFigure
+                miniFigure.appendChild(containIcon);
 
-               
-                //Création de la balise div dans DOM qui recevra iconCorbeille
-                const divCorb = document.createElement("div");
-                //Rajouter la classe à divCorb (div)
-                divCorb.classList.add("corb");
-                //Création de la balise span dans le DOM
-                const iconCorbeille = document.createElement("span");
-                //Rajouter la classe à iconCorbeille (span)
-                iconCorbeille.classList.add("fa-solid", "fa-trash-can");
-                               
-                //Intégrer divCorb à l'élément DOM corbeille
-                corbeille.appendChild(divCorb);
-                //Intégrer iconCorbeille à l'élément DOM divCorb
-                divCorb.appendChild(iconCorbeille);               
-                //On rattache le clone de l'image à la balise miniature
-                const cloneImg = img.cloneNode(true);
-                cloneImg.classList.add("cloneImg");
-                /* miniature.appendChild(img.cloneNode(true)); */ 
-                divCorb.appendChild(cloneImg);              
+                //Création de l'icone corbeille
+                const trashIcon = document.createElement("i");
+                //Rajouter classe à l'icone corbeille
+                trashIcon.classList.add("fa-solid", "fa-trash-can");
+                //Intégrer trashIcone à containIcon
+                containIcon.appendChild(trashIcon);
+
+                //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale et l'image de la gallery
+                trashIcon.addEventListener('click', function() {                   
+                   miniFigure.remove();
+                   figure.remove();
+                  });
+
 
             });
            
@@ -152,6 +167,10 @@ async function recupTravaux() {
 /* Rappel de la fonction pour réaliser la modification du DOM */
 recupTravaux();
 
+
+//********************************************************************************************************/
+//CI-DESSOUS MODIFICATIONS APPORTEES A INDEX.HTML APRES CONNEXION REUSSIE
+//********************************************************************************************************/
 const tokenRecupere = window.sessionStorage.getItem("token");
     if (tokenRecupere) {
         const filtres = document.querySelector(".filtres");
@@ -169,19 +188,47 @@ const tokenRecupere = window.sessionStorage.getItem("token");
         const jsModal = document.querySelector(".js-modal");
         jsModal.style.display = "block";
         //Faire apparaître l'icone du lien "modifier"
+        const iconeModif = document.querySelector(".fa-pen-to-square");
+        iconeModif.style.display = "block";       
+
+        //Création de la balise div-ban (bannière fond noir) dans DOM 
+        const divBan = document.createElement("div-ban");
+        //Rajouter la classe ban-black à divBan
+        divBan.classList.add("ban-black");
+        //Récupérer le header du DOM
+        const header = document.querySelector("header");
+        //Intégrer divBan à l'élément DOM header comme premier enfant        
+        header.insertAdjacentElement('afterbegin', divBan);
+        header.style.marginTop = 0;
+        divBan.style.marginBottom = "38px";
+        /* divBan.style.color = "white"; */
+        divBan.innerHTML = "Mode édition";
+
+        //Créer clone de l'icone iconeModif
+        const cloneIcon = iconeModif.cloneNode(true);
+        //Rajouter une classe au clone de l'icone
+        cloneIcon.setAttribute("class", "cloned-icon fa-regular fa-pen-to-square")
+        //Intégrer le clone de l'icone à la bannière
+        /* divBan.appendChild(cloneIcon); */
+        divBan.insertAdjacentElement('afterbegin', cloneIcon);
         
+         
     };
 
-    // Fonction à exécuter au clic sur le lien
+//********************************************************************************************************** */    
+//CI-DESSOUS CODE POUR LA DECONNEXION DE LA PAGE INDEX.HTML
+//********************************************************************************************************** */
+
+    // Fonction à exécuter au clic sur le lien logout
 function onClickLogoutLink() {
-    // Code pour la déconnexion de l'utilisateur
+    // Code pour la déconnexion de l'utilisateur : Enlève le token de la sessionStorage
     window.sessionStorage.removeItem("token");
     location.reload();
     // Empêcher le lien de rediriger vers une autre page
     event.preventDefault();
-  }
-  
-  // Obtenir le lien HTML avec l'attribut href="nav-logout"
+  };
+
+  // Récupérer le lien HTML avec l'attribut href="nav-logout"
   const logoutLink = document.querySelector('a[href="nav-logout"]');
   
   // Ajouter un écouteur d'événement pour le clic sur le lien

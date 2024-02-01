@@ -3,6 +3,8 @@
    License: none (public domain)
 */
 
+
+
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 a, abbr, acronym, address, big, cite, code,
@@ -49,15 +51,19 @@ table {
 /** end reset css**/
 body {
 	max-width: 1140px;
+	height: 3500px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
+	background-color: #fffef8;
 }
 header {
 	display: flex;
-	justify-content: space-between;
-	margin: 50px 0
+	flex-direction: column;	
+	margin: 50px 0;
+	background-color: #fffef8;
 }
+
 section {
 	margin-top: 92px;
 	margin-bottom: 139px;
@@ -99,6 +105,11 @@ nav li {
 li:hover {
 	color: #B1663C;
 }
+
+a:hover {
+	color: #B1663C;
+}
+
 #introduction {
 	display: flex;
 	align-items: center;
@@ -138,7 +149,7 @@ li:hover {
 	width: 100%;
 }
 
-.miniature {
+.mini-gallery {
 	width: 40%;
 	margin-top: 46px;
 	display: grid;
@@ -149,7 +160,7 @@ li:hover {
 	padding-right: 105.2px;		
 }
 
-.miniature img {
+.mini-gallery img {
 	width: 78px;
 	height: 104px;
 }
@@ -200,7 +211,18 @@ input[type="submit"]{
 footer nav ul {
 	display: flex;
 	justify-content: flex-end;
-	margin: 2em
+	margin: 2em;	
+}
+
+footer {
+	width: 116%;
+	height: 60px;
+    background-color: white;
+    display: flex;
+    justify-content: end;
+    align-items: center;    
+    bottom: 0;		
+	margin-left: -150px;
 }
 
 .filtres {	
@@ -303,7 +325,7 @@ footer nav ul {
 	text-decoration: none;
 	display: flex;
 	align-items: center;
-	margin-top: 2px;
+	margin-top: 10px;
 	display: none; 	
 }
 
@@ -355,6 +377,11 @@ li a {
 	font-size: 9px;
 	color: white;
 	margin-top: 4px;
+	
+}
+
+.mini-figure {
+	position: relative;
 }
 
 .corb{
@@ -364,7 +391,33 @@ li a {
 	background-color: black;
 	display: flex;
 	justify-content: center;
-		
-	
+	position: absolute;
+	right: 5px;
+	top: 6px;
 }
 
+.ban-black {
+	width: 116%;
+	height: 59px;
+	background-color: black;
+	margin-top: 0;
+	margin-left: -150px;
+	color: white;
+	display: flex;
+	justify-content: center;
+	align-items: center;	
+}
+
+.entete {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+}
+
+.cloned-icon {
+	width: 15.58px;
+	height: 15.58px;
+	color: white;	
+	font-size: 15.52px;
+	margin-top: 0;
+}
