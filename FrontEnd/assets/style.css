@@ -51,7 +51,7 @@ table {
 /** end reset css**/
 body {
 	max-width: 1140px;
-	height: 3500px;
+	height: 100%;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
