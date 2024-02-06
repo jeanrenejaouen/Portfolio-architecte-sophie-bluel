@@ -369,7 +369,7 @@ function onClickLogoutLink() {
 
 
 //******************************************************************************************************************** */
-                                //LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
+                                // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
                                 // DE SELECTIONNER UN FICHIER IMAGE
                                 // ET DE L AFFICHER DANS "miniGallery" DE LA MODALE 2
 //******************************************************************************************************************** */
@@ -382,7 +382,7 @@ function onClickLogoutLink() {
                 if (selectedFile) {
                 // Créer un objet FileReader pour lire le contenu du fichier
                 const reader = new FileReader();
-      
+                    
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
@@ -391,7 +391,9 @@ function onClickLogoutLink() {
                 // Ajouter l'image à l'élément (miniGallery)
                 miniGallery.appendChild(image);
 
-                        
+                // Ce code permet de supprimer la recherche de fichier quand une image est sélectionnée
+                imgMod2.parentNode.removeChild(imgMod2);
+                    
 
       });
       
@@ -404,10 +406,10 @@ function onClickLogoutLink() {
   
                 // Ajouter l'élément input à la page
                 miniGallery.appendChild(imgMod2);
-
+                
                 
         });
         
             
               });   
-                 
+                
