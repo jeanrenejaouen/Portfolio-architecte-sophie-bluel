@@ -52,7 +52,7 @@ table {
 body {
 	max-width: 1140px;
 	height: 100%;
-	margin:auto;
+	margin:auto;	
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 	background-color: #fffef8;	
@@ -142,14 +142,14 @@ a:hover {
 	width: 95%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
-	grid-column-gap: 20px;
-	grid-row-gap: 20px;	
+	grid-column-gap: 7px;
+	grid-row-gap: 18px;	
 	margin-left: 60px;
 }
 
-.gallery img {
+/* .gallery img {
 	width: 100%;
-}
+} */
 
 .mini-gallery {
 	width: 40%;
@@ -218,7 +218,7 @@ footer nav ul {
 }
 
 footer {
-	/* width: 100%; */
+	width: 1354px;
 	height: 60px;
     background-color: white;
     display: flex;
@@ -411,7 +411,7 @@ li a {
 }
 
 .ban-black {
-	width: 116%;
+	width: 1354px;
 	height: 59px;
 	background-color: black;
 	margin-top: 0;

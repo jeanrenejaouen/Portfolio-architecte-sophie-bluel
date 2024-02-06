@@ -16,11 +16,14 @@ function afficherGallery (tableTravaux){
                 figure.id = "figure"+article.id;
                 //Création de la balise figcaption
                 const figcaption = document.createElement("figcaption");
+                figcaption.style.marginTop = "7px";
                 //Création de la balise img (image)
                 const img = document.createElement("img");                
                 //Récupération source de l'image
                 img.src = article.imageUrl;
                 //Récupération texte de l'image
+                img.width = 346;
+                img.height = 416;
                 figcaption.innerText = article.title;     
                 //On rattache la balise figure a la balise (div class="gallery")
                 gallery.appendChild(figure);
