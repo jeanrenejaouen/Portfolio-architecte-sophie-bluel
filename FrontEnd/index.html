@@ -50,21 +50,19 @@
 			<i class="fa-regular fa-pen-to-square" style="display:none"></i>
 			<a href="#modal1" class="js-modal">modifier</a>
 		</div>	
-			<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-disabled="titlemodal" style="display: none;">
+			
+		<aside id="modal1" class="modal" aria-hidden="true" role="dialog" aria-disabled="titlemodal" style="display: none;">
 				
-				<div class="modal-wrapper js-modal-stop">
-					<h1 id="titlemodal" class="title-modal">Galerie photo</h1>
-					<!-- <i class="  fa-regular fa-rectangle-xmark"></i> -->
-					<i class="js-modal-close fa-solid fa-xmark"></i>					
-					
-					<div id="miniGallery" class="mini-gallery"></div>
-					<div class="line"></div>
-					<input type="submit" value="Ajouter une photo">	
-										
-				</div>
-			</aside>
-
-		
+			<div class="modal-wrapper js-modal-stop">
+				<h1 id="titleModal" class="title-modal">Galerie photo</h1>					
+				<i class="js-modal-close fa-solid fa-xmark"></i>					
+				
+				<div id="miniGallery" class="mini-gallery"></div>
+				<div class="line"></div>
+				<input type="submit" id="ajouterPhoto" value="Ajouter une photo">	
+									
+			</div>
+		</aside> 
 
 		<ul class="filtres">
 			<li class="btn btn__tous btn__selected">Tous</li>
@@ -81,9 +79,9 @@
 		<p>Vous avez un projet ? Discutons-en !</p>
 		<form action="#" method="post">
 			<label for="name">Nom</label>
-			<input type="text" name="name" id="name">
+			<input autocomplete="on" type="text" name="name" id="name">
 			<label for="email">Email</label>
-			<input type="email" name="email" id="email">
+			<input autocomplete="on" type="email" name="email" id="email">
 			<label for="message">Message</label>
 			<textarea name="message" id="message" cols="30" rows="10"></textarea>
 			<input type="submit" value="Envoyer">

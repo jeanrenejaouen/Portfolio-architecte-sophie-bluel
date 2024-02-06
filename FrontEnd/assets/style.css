@@ -55,7 +55,7 @@ body {
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
-	background-color: #fffef8;
+	background-color: #fffef8;	
 }
 header {
 	display: flex;
@@ -134,15 +134,17 @@ a:hover {
 	margin-bottom: 0.5em;
 }
 
+
 #portfolio h2 {
 	text-align: center;	
 }
 .gallery {
-	width: 100%;
+	width: 95%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
-	grid-row-gap: 20px;
+	grid-row-gap: 20px;	
+	margin-left: 60px;
 }
 
 .gallery img {
@@ -206,6 +208,7 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	cursor: pointer;
 }
 
 footer nav ul {
@@ -215,7 +218,7 @@ footer nav ul {
 }
 
 footer {
-	width: 116%;
+	/* width: 100%; */
 	height: 60px;
     background-color: white;
     display: flex;
@@ -279,7 +282,7 @@ footer {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.modal-wrapper {
+.modal-wrapper, .modal2-wrapper, .modal3-wrapper {
 	text-align: center;
 	overflow: auto;
 	width: 630px;	
@@ -315,6 +318,17 @@ footer {
 	justify-content: center;
 	margin-top: 38px;
 	margin-bottom: 45px;		
+}
+
+.modal2-wrapper input[type="submit"]{
+	width: 237px;
+	height: 36px;
+	display: flex;
+	justify-content: center;
+	margin-top: 38px;
+	margin-bottom: 45px;
+	background-color: #A7A7A7;	
+	border: none;	
 }
 
 .js-modal {	
@@ -421,3 +435,83 @@ li a {
 	font-size: 15.52px;
 	margin-top: 0;
 }
+
+.fa-arrow-left {
+	width: 21px;
+	height: 21px;
+	color: black;
+	font-size: 21px;
+	position: absolute;
+	top: 26px;
+	left: 30px;
+	cursor: pointer;
+}
+
+.insert-image {
+	width: 420px;
+	height: 169px;
+	border-radius: 3px;
+	background: #E8F1F6;
+	margin-left: 105.2px;	
+	margin-right: 105.2px;	
+	padding: 0;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	gap: 0;
+	align-items: center;
+}
+
+.fa-image {
+	width: 76px;
+	height: 76px;
+	color: #B9C5CC;
+	font-size: 66px;	
+}
+
+#ajout-photo {
+	background: #CBD6DC;
+	border: 0;	
+	margin: 0;
+	color: #306685;
+	margin-bottom: 7px;
+}
+
+#form-ajout {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	margin-top: 30px;	
+}
+
+#titreMod2 {
+	width: 420px;
+	height: 51px;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	background: #FFF;
+	border: 0;	
+	margin-bottom: 21px;
+}
+
+#categorieMod2 {
+	width: 420px;
+	height: 51px;
+	background: #FFF;
+	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
+	border: 0;	
+}
+
+#titreLabM2, #categLabM2 {
+	width: 420px;
+	color: #3D3D3D;
+	font-family: "Work Sans";
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+	display: flex;
+	justify-content: start;
+	margin-bottom: 10px;	
+}
+
