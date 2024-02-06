@@ -363,6 +363,13 @@ function onClickLogoutLink() {
                 /* imgMod2.onchange = "handleImageUpload()" */
 
 /* <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png" onchange="handleImageUpload()" /> */
+
+
+//******************************************************************************************************************** */
+                                //LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
+                                // DE SELECTIONNER UN FICHIER IMAGE
+                                // ET DE L AFFICHER DANS "miniGallery" DE LA MODALE 2
+//******************************************************************************************************************** */
         
                 // Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
                 imgMod2.addEventListener('change', function(event) {
@@ -378,7 +385,7 @@ function onClickLogoutLink() {
                 const image = document.createElement('img');
                 image.src = reader.result; // obtenir l'URL de l'image
         
-                // Ajouter l'image à la page
+                // Ajouter l'image à l'élément (miniGallery)
                 miniGallery.appendChild(image);
 
                         
@@ -400,12 +407,4 @@ function onClickLogoutLink() {
         
             
               });   
-    
-
-              /* const reponseSuppression = fetch ("http://localhost:5678/api/works/"+boutonSuppression.id, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': 'Bearer '+token
-                },
-            }) */
+                 
