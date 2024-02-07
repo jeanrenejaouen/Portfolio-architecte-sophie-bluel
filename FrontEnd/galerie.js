@@ -422,9 +422,7 @@ function onClickLogoutLink() {
     //***********************************************************************************************
 
         // Écouter l'événement de soumission du formulaire
-          retourIcon.addEventListener("click",() => {
-            // Empêche l'envoi du formulaire
-            
+          retourIcon.addEventListener("click",() => {            
 
             console.log("flèche gauche cliquée"); 
 
