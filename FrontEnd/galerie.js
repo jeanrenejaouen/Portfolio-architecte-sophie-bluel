@@ -31,7 +31,7 @@ function afficherGallery (tableTravaux){
                 figure.appendChild(img); 
                 figure.appendChild(figcaption); 
 
-            
+        function modale1(){    
                 //Création de la balise mini-figure
                 const miniFigure = document.createElement("mini-figure");
                 //Rajouter classe à miniFigure
@@ -63,7 +63,7 @@ function afficherGallery (tableTravaux){
                 //Intégrer trashIcone à containIcon
                 containIcon.appendChild(trashIcon);
 
-                //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale et l'image de la gallery
+                //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
                 trashIcon.addEventListener('click', function() {
                     const reponseSuppression = fetch ("http://localhost:5678/api/works/"+article.id, {
                         method: 'DELETE',
@@ -75,7 +75,8 @@ function afficherGallery (tableTravaux){
                    miniFigure.remove();
                    figure.remove();
                   });
-
+                };
+                modale1();
             });
 
 
@@ -217,6 +218,7 @@ const tokenRecupere = window.sessionStorage.getItem("token");
 function onClickLogoutLink() {
     // Code pour la déconnexion de l'utilisateur : Enlève le token de la sessionStorage
     window.sessionStorage.removeItem("token");
+    // Rafraichissement de la page
     location.reload();
     // Empêcher le lien de rediriger vers une autre page
     event.preventDefault();
@@ -231,10 +233,10 @@ function onClickLogoutLink() {
 //***********************************************************************************************
 //***************          MODALE 2           *****************
 //*********************************************************************************************** */ */
-
-              // Récupérer l'élément d'entrée avec l'ID "ajouterPhoto"
+                
+              // Récupérer l'élément input avec l'ID "ajouterPhoto"
               const OpenModale2 = document.getElementById("ajouterPhoto");              
-              
+             
               // Écouter l'événement de soumission du formulaire
               OpenModale2.addEventListener("click", function(event) {
                     // Empêche l'envoi du formulaire
@@ -274,7 +276,7 @@ function onClickLogoutLink() {
                     // Définir la valeur du bouton
                     ajouterPhoto.setAttribute('value', '+ Ajouter photo');
                     ajouterPhoto.id = "ajout-photo";
-                    // Ajouter l'input à un élément existant (par exemple, un formulaire avec l'id "myForm")
+                    // Ajouter l'input à un élément existant 
                     document.getElementById('miniGallery').appendChild(ajouterPhoto);
 
                     //Créer l'élément p (jpg, png : 4mo max)
@@ -289,7 +291,7 @@ function onClickLogoutLink() {
                     const formAjoutPhoto = document.createElement("form");
                     // Ajouter attribut autocomplete
                     formAjoutPhoto.setAttribute("autocomplete", "on"); 
-                    // Ajouter une classe au formulaire (formAjouPhoto) 
+                    // Ajouter un id au formulaire (formAjouPhoto) 
                     formAjoutPhoto.id = "form-ajout";                                       
                    //positionner formAjoutPhoto après miniGallery
                     miniGallery.insertAdjacentElement("afterend", formAjoutPhoto);                    
@@ -386,13 +388,14 @@ function onClickLogoutLink() {
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
+                
                 image.src = reader.result; // obtenir l'URL de l'image
-        
+                
                 // Ajouter l'image à l'élément (miniGallery)
                 miniGallery.appendChild(image);
 
                 // Ce code permet de supprimer la recherche de fichier quand une image est sélectionnée
-                imgMod2.parentNode.removeChild(imgMod2);
+                imgMod2.parentNode.removeChild(imgMod2);                
                     
 
       });
@@ -403,13 +406,53 @@ function onClickLogoutLink() {
                 
     };
   });
-  
+                
                 // Ajouter l'élément input à la page
                 miniGallery.appendChild(imgMod2);
                 
                 
-        });
-        
-            
-              });   
+    
                 
+
+
+    });
+    
+    //***********************************************************************************************
+    //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
+    //***********************************************************************************************
+
+        // Écouter l'événement de soumission du formulaire
+          retourIcon.addEventListener("click",() => {
+            // Empêche l'envoi du formulaire
+            
+
+            console.log("flèche gauche cliquée"); 
+
+            /* location.reload(); */ 
+             
+           titleModal2.innerHTML = "Galerie photo";
+            miniGallery.classList.remove("insert-image");
+            miniGallery.innerHTML = "";
+            formAjoutPhoto.remove(); 
+            btnValider.id = "ajouterPhoto";
+            btnValider.style = "";
+            btnValider.value = "Ajouter une photo";
+            miniGallery.classList.add("mini-gallery");
+            line.style.marginTop = "67.3px";
+            recupTravaux();
+          });
+
+          
+          
+        
+           
+           
+
+            
+            
+
+         
+    });       
+             
+               
+       

@@ -282,7 +282,7 @@ footer {
 	background: rgba(0, 0, 0, 0.3);
 }
 
-.modal-wrapper, .modal2-wrapper, .modal3-wrapper {
+.modal-wrapper, .modal2-wrapper {
 	text-align: center;
 	overflow: auto;
 	width: 630px;	
