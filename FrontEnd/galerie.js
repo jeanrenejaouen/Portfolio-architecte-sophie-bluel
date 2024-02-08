@@ -215,20 +215,23 @@ const tokenRecupere = window.sessionStorage.getItem("token");
 //********************************************************************************************************** */
 
     // Fonction à exécuter au clic sur le lien logout
-function onClickLogoutLink() {
+function onClickLogoutLink(event) {
     // Code pour la déconnexion de l'utilisateur : Enlève le token de la sessionStorage
     window.sessionStorage.removeItem("token");
     // Rafraichissement de la page
     location.reload();
     // Empêcher le lien de rediriger vers une autre page
     event.preventDefault();
-  };
+  
+};
 
   // Récupérer le lien HTML avec l'attribut href="nav-logout"
   const logoutLink = document.querySelector('a[href="nav-logout"]');
   
   // Ajouter un écouteur d'événement pour le clic sur le lien
   logoutLink.addEventListener('click', onClickLogoutLink);
+
+
 
 //***********************************************************************************************
 //***************          MODALE 2           *****************
@@ -310,6 +313,7 @@ function onClickLogoutLink() {
                     titreInput.setAttribute("type", "text");
                     titreInput.setAttribute("id", "titreMod2");
                     titreInput.setAttribute("name", "titre");
+                    titreInput.setAttribute("value", "");
 
                     // Créer l'élément label categorieLabel
                     const categorieLabel = document.createElement("label");
@@ -356,13 +360,12 @@ function onClickLogoutLink() {
               
                 // Écouter l'événement de click sur bouton (+ Ajouter photo)
                 ajoutImgMod2.addEventListener("click", function() {
-                // Empêche l'envoi du formulaire
-                /* event.preventDefault(); */
+               
                     console.log("bouton cliqué");
                     miniGallery.innerHTML = "";
 
                 //Création de la balise input avec ses attributs (imgMod2)
-                const imgMod2 = document.createElement("input"); 
+                const imgMod2 = document.createElement("input");                 
                 imgMod2.type = "file";
                 imgMod2.accept = ".jpg, .png";
                 /* imgMod2.onchange = "handleImageUpload()" */
@@ -388,26 +391,49 @@ function onClickLogoutLink() {
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
-                
-                image.src = reader.result; // obtenir l'URL de l'image
-                
-                // Ajouter l'image à l'élément (miniGallery)
-                miniGallery.appendChild(image);
 
-                // Ce code permet de supprimer la recherche de fichier quand une image est sélectionnée
-                imgMod2.parentNode.removeChild(imgMod2);                
-                    
+                // Récupération du nom de l'image sélectionnée avec son extension (.jpg, .png)
+                const titreImgMod2 = selectedFile.name;
+                // Suppression de toute extension dans le nom de l'image
+                const titreImgMod22 = titreImgMod2.split('/').pop().split('.')[0];
+                // Insérer le nom de l'image sélectionnée dans le titre du formulaire
+                titreInput.value = titreImgMod22;
+
+                   
+                image.src = reader.result; // obtenir l'URL de l'image
+                image.width = "140";
+                image.height = "167"; 
+                image.style.marginTop =  - 198 + "px";  
+                image.style.marginBottom =  21 + "px";  
+
+                
+                
+                           
+                // Ajouter l'image en tant que premier enfant de formAjoutPhoto
+                /* formAjoutPhoto.appendChild(image); */
+                const firstChildElement = formAjoutPhoto.firstChild;
+                formAjoutPhoto.insertBefore(image, firstChildElement);               
+                
+
+                // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
+                imgMod2.parentNode.removeChild(imgMod2); 
+
+                if (selectedFile.size >= 4 * 1024 * 1024) {
+                    image.style.display = "none";
+                    console.log("taille image non conforme");
+                }   
 
       });
       
                 // Lire le contenu du fichier en tant que Data URL
                 reader.readAsDataURL(selectedFile);
-               
+
+                
                 
     };
   });
                 
-                // Ajouter l'élément input à la page
+                // place le bouton "choisir un fichier" dans miniGallery
                 miniGallery.appendChild(imgMod2);
                 
                 
@@ -437,6 +463,7 @@ function onClickLogoutLink() {
             btnValider.value = "Ajouter une photo";
             miniGallery.classList.add("mini-gallery");
             line.style.marginTop = "67.3px";
+            retourIcon.remove();
             recupTravaux();
           });
 
