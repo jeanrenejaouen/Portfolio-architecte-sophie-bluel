@@ -75,14 +75,14 @@ function afficherGallery (tableTravaux){
                    miniFigure.remove();
                    figure.remove();
                   });
-                };
-                modale1();
-            });
+                
+                
+            };
 
-
+            modale1();
            
+});
 };
-
 /* Fonction qui déselectionne tous les boutons tout en conservant leur style */
 function styleBtnFiltreActif() {
     const listeBtn = document.getElementsByClassName("btn");
@@ -468,8 +468,7 @@ function onClickLogoutLink(event) {
           });
 
           
-          
-        
+            
            
            
 
@@ -479,5 +478,5 @@ function onClickLogoutLink(event) {
          
     });       
              
-               
+          
        
