@@ -31,6 +31,8 @@ function afficherGallery (tableTravaux){
                 figure.appendChild(img); 
                 figure.appendChild(figcaption); 
 
+    
+
         function modale1(){    
                 //Création de la balise mini-figure
                 const miniFigure = document.createElement("mini-figure");
@@ -71,18 +73,20 @@ function afficherGallery (tableTravaux){
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer '+tokenRecupere
                         }
+                
                     });                   
-                   miniFigure.remove();
-                   figure.remove();
-                  });
-                
-                
+                    miniFigure.remove();
+                    figure.remove();
+                   });
+
+                    
             };
 
             modale1();
            
 });
 };
+
 /* Fonction qui déselectionne tous les boutons tout en conservant leur style */
 function styleBtnFiltreActif() {
     const listeBtn = document.getElementsByClassName("btn");
