@@ -22,7 +22,8 @@ const closeModal = function(e){
     modal.removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-close').removeEventListener('click', closeModal)
     modal.querySelector('.js-modal-stop').removeEventListener('click', stopPropagation)
-    modal = null    
+    modal = null 
+    location.reload();   
 };
 
 const stopPropagation = function(e){

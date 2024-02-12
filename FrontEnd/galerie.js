@@ -33,7 +33,7 @@ function afficherGallery (tableTravaux){
 
     
 
-        function modale1(){    
+        /* function modale1(){  */   
                 //Création de la balise mini-figure
                 const miniFigure = document.createElement("mini-figure");
                 //Rajouter classe à miniFigure
@@ -64,28 +64,56 @@ function afficherGallery (tableTravaux){
                 trashIcon.classList.add("fa-solid", "fa-trash-can");
                 //Intégrer trashIcone à containIcon
                 containIcon.appendChild(trashIcon);
+                
 
                 //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
-                trashIcon.addEventListener('click', function() {
-                    const reponseSuppression = fetch ("http://localhost:5678/api/works/"+article.id, {
+                trashIcon.addEventListener('click', async function() {
+                    const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer '+tokenRecupere
-                        }
+                        }                
+                      
+                  })  
+                  .then(response => {
+                    if (response.ok) {                      
+                        console.log('Suppression réussie'); // Statut de succès
+                        const textMessDelete = document.createElement("p");
+                        textMessDelete.id = "deletePhoto";
+                        const line = document.querySelector(".line");
+                        line.appendChild(textMessDelete);
+                        textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie";
+                        textMessDelete.style.color = "green";
+                        textMessDelete.style.marginTop = "-40px";
+                        
+                   } else {
+                        const textMessDelete = document.createElement("p");
+                        const line = document.querySelector(".line");
+                        line.appendChild(textMessDelete);                        
+                        textMessDelete.style.color = "red";
+                        textMessDelete.style.marginTop = "-40px";
+                        textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+                    } 
+                })
+                .catch(error => console.error(error));
+
+                miniFigure.remove();
+                figure.remove();
                 
-                    });                   
-                    miniFigure.remove();
-                    figure.remove();
+
                    });
 
-                    
-            };
+                   function deleteFault() {
+                    const element = document.getElementById("deletePhoto");
+                    element.style.display = "none";
+                  };
+            });
 
-            modale1();
+            
            
-});
 };
+
 
 /* Fonction qui déselectionne tous les boutons tout en conservant leur style */
 function styleBtnFiltreActif() {
@@ -247,8 +275,9 @@ function onClickLogoutLink(event) {
               // Écouter l'événement de soumission du formulaire
               OpenModale2.addEventListener("click", function(event) {
                     // Empêche l'envoi du formulaire
-                    event.preventDefault();
-                    // Récupérer l'élément d'entrée avec l'ID "titleModal"
+                    event.preventDefault();                     
+                                        
+                    // Récupérer le titre de la modale avec l'ID "titleModal"
                     const titleModal2 = document.getElementById("titleModal");
                     //Changer titre de la modale
                     titleModal2.innerHTML = "Ajout photo";
@@ -270,12 +299,20 @@ function onClickLogoutLink(event) {
                     pictureIcon.classList.add("fa-regular", "fa-image");
                     miniGallery.appendChild(pictureIcon);
                     //Modifier le style du bouton Ajouter photo
+                    
                     const btnValider = document.getElementById("ajouterPhoto");
-                    btnValider.id = "";
-                    btnValider.value = "valider";
-                    btnValider.style.backgroundColor = "#A7A7A7";
-                    btnValider.style.border = "0";                    
-
+                    /* btnValider.value = "valider";                    
+                    btnValider.id = ""; */
+                    const buttonValider = document.createElement("button");                   
+                    buttonValider.innerText = "valider";
+                    const buttonEvo = document.createElement("input");
+                    buttonEvo.type = "submit";
+                    buttonEvo.id = "envoiApi";
+                    buttonEvo.value = "valider";
+                    buttonValider.classList.add("button-valider");
+                    
+                    btnValider.replaceWith(buttonValider);                                  
+           
                     // Créer l'élément input (+ Ajouter photo)
                     const ajouterPhoto = document.createElement('input');
                     // Définir le type de l'input comme submit
@@ -301,8 +338,8 @@ function onClickLogoutLink(event) {
                     // Ajouter un id au formulaire (formAjouPhoto) 
                     formAjoutPhoto.id = "form-ajout";                                       
                    //positionner formAjoutPhoto après miniGallery
-                    miniGallery.insertAdjacentElement("afterend", formAjoutPhoto);                    
-                    
+                    miniGallery.insertAdjacentElement("afterend", formAjoutPhoto);
+                                        
                     // Créer l'élément label titreLabel
                     const titreLabel = document.createElement("label");
                     // Définir l'attribut de titreLabel 
@@ -316,7 +353,7 @@ function onClickLogoutLink(event) {
                     // Définir les attributs de titreInput
                     titreInput.setAttribute("type", "text");
                     titreInput.setAttribute("id", "titreMod2");
-                    titreInput.setAttribute("name", "titre");
+                    titreInput.setAttribute("name", "title");
                     titreInput.setAttribute("value", "");
 
                     // Créer l'élément label categorieLabel
@@ -331,7 +368,7 @@ function onClickLogoutLink(event) {
                     const categorieSelect = document.createElement("select");                    
                     // Définir les attributs de categorieSelect                    
                     categorieSelect.setAttribute("id", "categorieMod2");
-                    categorieSelect.setAttribute("name", "categorie");
+                    categorieSelect.setAttribute("name", "category");
                     // Créer les options pour categorieSelect
                     const option0 = document.createElement("option");
                     option0.textContent = "";
@@ -354,10 +391,35 @@ function onClickLogoutLink(event) {
                     categorieSelect.appendChild(option1);
                     categorieSelect.appendChild(option2);
                     categorieSelect.appendChild(option3);
-                    
+
+                    const selectElement = document.getElementById("mySelect");
+
+
+//******************************************************************************** */
+//         **********CONDITIONS POUR PASSER AU VERT LE BOUTON VALIDER*******
+//******************************************************************************** */
+            // Ajout d'un écouteur d'événement au changement de la sélection de catégorie
+            categorieSelect.addEventListener("change", function() {
+            // Vérification si une option de catégorie est sélectionnée 
+            // Et si un titre et une image sont présente (le titre est récupéré avec l'image)
+
+            if (categorieSelect.value  && titreInput.value) {
+                // Changer la couleur du bouton submit
+                /* document.querySelector(".button-valider").style.backgroundColor = "#1D6154"; */
+                buttonValider.replaceWith(buttonEvo);                
+
+            } else {
+                // Réinitialiser la couleur du bouton submit
+                /* buttonValider.style.backgroundColor = ""; */
+                buttonEvo.replaceWith(buttonValider);
+            }
+            });                    
+            
+
                     const line = document.querySelector(".line");
                     line.style.marginTop = "47px";
-                  
+                    // Supprime le message à la suite de la suppression d'une photo
+                    line.innerHTML = "";
 
                // Récupérer le bouton (+ Ajouter photo) avec l'ID "ajout-photo"
                 const ajoutImgMod2 = document.getElementById("ajout-photo");
@@ -367,11 +429,13 @@ function onClickLogoutLink(event) {
                
                     console.log("bouton cliqué");
                     miniGallery.innerHTML = "";
-
+                   
                 //Création de la balise input avec ses attributs (imgMod2)
                 const imgMod2 = document.createElement("input");                 
                 imgMod2.type = "file";
                 imgMod2.accept = ".jpg, .png";
+                imgMod2.style.marginTop =  - 300 + "px";  
+                imgMod2.style.marginBottom =  280 + "px";
                 /* imgMod2.onchange = "handleImageUpload()" */
 
 /* <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png" onchange="handleImageUpload()" /> */
@@ -380,7 +444,7 @@ function onClickLogoutLink(event) {
 //******************************************************************************************************************** */
                                 // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
                                 // DE SELECTIONNER UN FICHIER IMAGE
-                                // ET DE L AFFICHER DANS "miniGallery" DE LA MODALE 2
+                                // ET DE L AFFICHER DANS LE FORMULAIRE DE LA MODALE 2
 //******************************************************************************************************************** */
         
                 // Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
@@ -395,7 +459,7 @@ function onClickLogoutLink(event) {
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
-
+                   
                 // Récupération du nom de l'image sélectionnée avec son extension (.jpg, .png)
                 const titreImgMod2 = selectedFile.name;
                 // Suppression de toute extension dans le nom de l'image
@@ -408,57 +472,101 @@ function onClickLogoutLink(event) {
                 image.width = "140";
                 image.height = "167"; 
                 image.style.marginTop =  - 198 + "px";  
-                image.style.marginBottom =  21 + "px";  
-
+                image.style.marginBottom =  21 + "px"; 
+                image.name = "image";
+                image.id = "imageSelected" 
                 
-                
-                           
+                window.sessionStorage.setItem("image", image.src);
+                                           
                 // Ajouter l'image en tant que premier enfant de formAjoutPhoto
                 /* formAjoutPhoto.appendChild(image); */
                 const firstChildElement = formAjoutPhoto.firstChild;
-                formAjoutPhoto.insertBefore(image, firstChildElement);               
+                formAjoutPhoto.insertBefore(image, firstChildElement); 
+
                 
+      
 
                 // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
-                imgMod2.parentNode.removeChild(imgMod2); 
+                imgMod2.parentNode.removeChild(imgMod2);
 
                 if (selectedFile.size >= 4 * 1024 * 1024) {
                     image.style.display = "none";
                     console.log("taille image non conforme");
-                }   
+                }; 
+
+                
 
       });
       
                 // Lire le contenu du fichier en tant que Data URL
-                reader.readAsDataURL(selectedFile);
-
-                
+                reader.readAsDataURL(selectedFile);              
                 
     };
+      
+
   });
                 
-                // place le bouton "choisir un fichier" dans miniGallery
-                miniGallery.appendChild(imgMod2);
+        // Affiche le bouton "choisir un fichier" dans miniGallery
+        /* miniGallery */ formAjoutPhoto.appendChild(imgMod2);
                 
                 
-    
-                
-
-
     });
+
+
+//*******************************************************************************************/
+//                       ***ENVOI FORMULAIRE A L'API***
+//*******************************************************************************************/
+
+buttonEvo.addEventListener("click", async function(event) {
+    event.preventDefault();
+    console.log("submit cliqué");
+    const tokenRecupere = window.sessionStorage.getItem("token");
+    const imageRecup = window.sessionStorage.getItem("image");    
+    console.log(image);
+    console.log(titreInput.value);
+    console.log(categorieSelect.value);
+    console.log(tokenRecupere);
+
+    const formData = new FormData();
+    formData.append("image", imageRecup);
+    formData.append("title", titreInput.value);        
+    formData.append("category", categorieSelect.value);
+    
+    const reponseAjout = await fetch ("http://localhost:5678/api/works/",{
+    method: 'POST',
+    headers: {
+        'accept': 'application/json',        
+        'Authorization': 'Bearer'+tokenRecupere,        
+        /* 'Content-Type': 'multipart/form-data'  */       
+        },                 
+    Body: formData, 
+      
+}) 
+
+
+.then(response => response.json())
+.then(data => {
+  console.log(data); // La réponse de l'API
+})
+.catch(error => {
+  console.error(error);
+});
+       
+});     
+
     
     //***********************************************************************************************
     //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
     //***********************************************************************************************
 
-        // Écouter l'événement de soumission du formulaire
+        // Écouter l'événement de flèche retour du formulaire
           retourIcon.addEventListener("click",() => {            
 
             console.log("flèche gauche cliquée"); 
 
             /* location.reload(); */ 
-             
-           titleModal2.innerHTML = "Galerie photo";
+            buttonEvo.replaceWith(btnValider);  
+            titleModal2.innerHTML = "Galerie photo";
             miniGallery.classList.remove("insert-image");
             miniGallery.innerHTML = "";
             formAjoutPhoto.remove(); 
@@ -470,14 +578,6 @@ function onClickLogoutLink(event) {
             retourIcon.remove();
             recupTravaux();
           });
-
-          
-            
-           
-           
-
-            
-            
 
          
     });       

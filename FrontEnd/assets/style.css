@@ -515,3 +515,21 @@ li a {
 	margin-bottom: 10px;	
 }
 
+.button-valider {
+	font-family: 'Syne';
+	font-weight: 700;
+	color: white;	
+	margin : 2em auto ;	
+	text-align: center;
+	border-radius: 60px ;	
+	width: 237px;
+	height: 36px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 38px;
+	margin-bottom: 45px;
+	background-color: #A7A7A7;
+	border: 0;
+}
+
