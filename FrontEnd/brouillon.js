@@ -46,3 +46,15 @@ Assurez-vous de bien comprendre ce code et de l'adapter à vos besoins spécifiq
 
 //*************************************************************************************** */
 //*************************************************************************************** */
+
+const formData = new FormData();
+formData.append('image', image.files[0]);
+formData.append('title', titre.value);
+formData.append('category', categorie.value);
+const reponse2 = await fetch ("http://localhost:5678/api/works", {
+    method: 'POST',
+    headers: {
+        'Authorization': 'Bearer '+token
+    },
+    body: formData
+})

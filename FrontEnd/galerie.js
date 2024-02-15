@@ -73,6 +73,7 @@ function afficherGallery (tableTravaux){
                         headers: {
                             'Content-Type': 'application/json',
                             'Authorization': 'Bearer '+tokenRecupere
+                            
                         }                
                       
                   })  
@@ -275,8 +276,9 @@ function onClickLogoutLink(event) {
               // Écouter l'événement de soumission du formulaire
               OpenModale2.addEventListener("click", function(event) {
                     // Empêche l'envoi du formulaire
-                    event.preventDefault();                     
-                                        
+                    event.preventDefault(); 
+                    
+                                               
                     // Récupérer le titre de la modale avec l'ID "titleModal"
                     const titleModal2 = document.getElementById("titleModal");
                     //Changer titre de la modale
@@ -329,6 +331,8 @@ function onClickLogoutLink(event) {
                     commentAjout.innerText = "jpg, png : 4mo max";
                     //Ajouter l'élément p à miniGallery
                     miniGallery.appendChild(commentAjout);                    
+
+
 
         //*********  FORMULAIRE AJOUT PHOTO DANS MODALE 2  *********                     
                     //Créer formulaire formAjoutPhoto
@@ -423,6 +427,7 @@ function onClickLogoutLink(event) {
 
                // Récupérer le bouton (+ Ajouter photo) avec l'ID "ajout-photo"
                 const ajoutImgMod2 = document.getElementById("ajout-photo");
+
               
                 // Écouter l'événement de click sur bouton (+ Ajouter photo)
                 ajoutImgMod2.addEventListener("click", function() {
@@ -431,12 +436,15 @@ function onClickLogoutLink(event) {
                     miniGallery.innerHTML = "";
                    
                 //Création de la balise input avec ses attributs (imgMod2)
-                const imgMod2 = document.createElement("input");                 
+                const imgMod2 = document.createElement("input"); 
+                imgMod2.id = "imgMod2";                
                 imgMod2.type = "file";
                 imgMod2.accept = ".jpg, .png";
                 imgMod2.style.marginTop =  - 300 + "px";  
                 imgMod2.style.marginBottom =  280 + "px";
                 /* imgMod2.onchange = "handleImageUpload()" */
+
+                
 
 /* <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png" onchange="handleImageUpload()" /> */
 
@@ -459,7 +467,7 @@ function onClickLogoutLink(event) {
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
-                   
+                  
                 // Récupération du nom de l'image sélectionnée avec son extension (.jpg, .png)
                 const titreImgMod2 = selectedFile.name;
                 // Suppression de toute extension dans le nom de l'image
@@ -487,13 +495,14 @@ function onClickLogoutLink(event) {
       
 
                 // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
-                imgMod2.parentNode.removeChild(imgMod2);
-
-                if (selectedFile.size >= 4 * 1024 * 1024) {
+                /* imgMod2.parentNode.removeChild(imgMod2);*/
+                imgMod2.style.display = "none";
+                
+                 if (selectedFile.size >= 4 * 1024 * 1024) {
                     image.style.display = "none";
                     console.log("taille image non conforme");
-                }; 
-
+                };  
+ 
                 
 
       });
@@ -521,30 +530,29 @@ buttonEvo.addEventListener("click", async function(event) {
     event.preventDefault();
     console.log("submit cliqué");
     const tokenRecupere = window.sessionStorage.getItem("token");
-    const imageRecup = window.sessionStorage.getItem("image");    
-    console.log(image);
+    const image = document.getElementById("imgMod2");    
+    console.log(image.files[0]);
     console.log(titreInput.value);
     console.log(categorieSelect.value);
     console.log(tokenRecupere);
 
     const formData = new FormData();
-    formData.append("image", imageRecup);
+    formData.append("image", image.files[0]);
     formData.append("title", titreInput.value);        
     formData.append("category", categorieSelect.value);
     
     const reponseAjout = await fetch ("http://localhost:5678/api/works/",{
     method: 'POST',
-    headers: {
-        'accept': 'application/json',        
-        'Authorization': 'Bearer'+tokenRecupere,        
-        /* 'Content-Type': 'multipart/form-data'  */       
+    headers: {             
+        'Authorization': 'Bearer '+tokenRecupere 
+               
         },                 
-    Body: formData, 
+    body: formData 
       
 }) 
 
 
-.then(response => response.json())
+.then(reponseAjout => reponseAjout.json())
 .then(data => {
   console.log(data); // La réponse de l'API
 })
@@ -558,14 +566,13 @@ buttonEvo.addEventListener("click", async function(event) {
     //***********************************************************************************************
     //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
     //***********************************************************************************************
+    
+         // Écouter l'événement de flèche retour du formulaire
+        retourIcon.addEventListener("click",() => {            
 
-        // Écouter l'événement de flèche retour du formulaire
-          retourIcon.addEventListener("click",() => {            
-
-            console.log("flèche gauche cliquée"); 
-
-            /* location.reload(); */ 
-            buttonEvo.replaceWith(btnValider);  
+            console.log("flèche gauche cliquée");            
+            buttonEvo.replaceWith(btnValider);
+            buttonValider.replaceWith(btnValider);   
             titleModal2.innerHTML = "Galerie photo";
             miniGallery.classList.remove("insert-image");
             miniGallery.innerHTML = "";
@@ -575,12 +582,12 @@ buttonEvo.addEventListener("click", async function(event) {
             btnValider.value = "Ajouter une photo";
             miniGallery.classList.add("mini-gallery");
             line.style.marginTop = "67.3px";
+            
             retourIcon.remove();
             recupTravaux();
           });
-
-         
-    });       
-             
           
+    }); 
+             
+    
        
