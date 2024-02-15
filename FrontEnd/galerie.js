@@ -444,9 +444,9 @@ function onClickLogoutLink(event) {
                                 // ET DE L AFFICHER DANS LE FORMULAIRE DE LA MODALE 2
 //******************************************************************************************************************** */
         
-                // Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
-                imgMod2.addEventListener('change', function(event) {
-                const selectedFile = event.target.files[0]; // récupérer le fichier sélectionné
+// Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
+imgMod2.addEventListener('change', function(event) {
+const selectedFile = event.target.files[0]; // récupérer le fichier sélectionné
      // Vérifier la taille du fichier
   if (selectedFile.size > 4 * 1024 * 1024) {
     alert("La taille de l'image est supérieure à 4 Mo. Veuillez sélectionner une image plus petite.");
