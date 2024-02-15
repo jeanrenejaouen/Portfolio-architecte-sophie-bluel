@@ -66,50 +66,48 @@ function afficherGallery (tableTravaux){
                 containIcon.appendChild(trashIcon);
                 
 
-                //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
-                trashIcon.addEventListener('click', async function() {
-                    const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': 'Bearer '+tokenRecupere
-                            
-                        }                
-                      
-                  })  
-                  .then(response => {
-                    if (response.ok) {                      
-                        console.log('Suppression réussie'); // Statut de succès
-                        const textMessDelete = document.createElement("p");
-                        textMessDelete.id = "deletePhoto";
-                        const line = document.querySelector(".line");
-                        line.appendChild(textMessDelete);
-                        textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie";
-                        textMessDelete.style.color = "green";
-                        textMessDelete.style.marginTop = "-40px";
-                        
-                   } else {
-                        const textMessDelete = document.createElement("p");
-                        const line = document.querySelector(".line");
-                        line.appendChild(textMessDelete);                        
-                        textMessDelete.style.color = "red";
-                        textMessDelete.style.marginTop = "-40px";
-                        textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
-                    } 
-                })
-                .catch(error => console.error(error));
 
-                miniFigure.remove();
-                figure.remove();
-                
+    //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
+    trashIcon.addEventListener('click', async function() {
+        const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer '+tokenRecupere                            
+            }                      
+        })  
+        .then(response => {
+        if (response.ok) {               
+            const textMessDelete = document.createElement("p");
+            textMessDelete.id = "deletePhoto";
+            const line = document.querySelector(".line");
+            line.appendChild(textMessDelete);
+            textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie";
+            textMessDelete.style.color = "green";
+            textMessDelete.style.marginTop = "-40px";
+            
+        } else {
+            const textMessDelete = document.createElement("p");
+            const line = document.querySelector(".line");
+            line.appendChild(textMessDelete);                        
+            textMessDelete.style.color = "red";
+            textMessDelete.style.marginTop = "-40px";
+            textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+        } 
+    })
+    .catch(error => console.error(error));
 
-                   });
+    recupTravaux();
+    /* miniFigure.remove();
+    figure.remove(); */    
 
-                   function deleteFault() {
-                    const element = document.getElementById("deletePhoto");
-                    element.style.display = "none";
-                  };
-            });
+        });
+
+        function deleteFault() {
+        const element = document.getElementById("deletePhoto");
+        element.style.display = "none";
+        };
+});
 
             
            
@@ -120,7 +118,7 @@ function afficherGallery (tableTravaux){
 function styleBtnFiltreActif() {
     const listeBtn = document.getElementsByClassName("btn");
     for (let i=0; i<listeBtn.length; i++){		
-		console.log (listeBtn[i]);		
+		/* console.log (listeBtn[i]); */		
 		listeBtn[0].className="btn btn__tous";
         listeBtn[1].className="btn btn__objets";
         listeBtn[2].className="btn btn__appartements";
@@ -140,12 +138,11 @@ async function recupTravaux() {
     
     /* BOUTON FILTRE TOUS */
     const btnTous = document.querySelector(".btn__tous");                        
-    btnTous.addEventListener ("click", function(){
-        console.log("click tous") 
+    btnTous.addEventListener ("click", function(){         
         let listTous = travaux.filter (element => {
             return element.categoryId === 1, 2, 3                      
         }) 
-        console.log(listTous);
+        
         afficherGallery(listTous);        
         styleBtnFiltreActif();
         btnTous.classList.add("btn__selected");  
@@ -153,12 +150,11 @@ async function recupTravaux() {
     
     /* BOUTON FILTRE OBJETS */
     const btnObjet = document.querySelector(".btn__objets");                        
-    btnObjet.addEventListener ("click", function() {         
-        console.log("click objet");        
+    btnObjet.addEventListener ("click", function() {               
         let listObjet = travaux.filter(element => {
         return element.categoryId === 1        
         });    
-        console.log(listObjet);
+        
         afficherGallery(listObjet);
         styleBtnFiltreActif();
         btnObjet.classList.add("btn__selected");                
@@ -167,12 +163,11 @@ async function recupTravaux() {
 
     /* BOUTON FILTRE APPARTEMENTS */
     const btnAppartement = document.querySelector(".btn__appartements");                        
-    btnAppartement.addEventListener ("click", function(){
-        console.log("click appartement") 
+    btnAppartement.addEventListener ("click", function(){        
         let listAppartement = travaux.filter (element => {
             return element.categoryId === 2                
         }) 
-        console.log(listAppartement);
+        
         afficherGallery(listAppartement);
         styleBtnFiltreActif();
         btnAppartement.classList.add("btn__selected");
@@ -180,12 +175,11 @@ async function recupTravaux() {
 
     /* BOUTON FILTRE HOTELS ET RESTAURANTS */
     const btnHotel = document.querySelector(".btn__hotel");                       
-    btnHotel.addEventListener ("click", function(){
-        console.log("click hotel") 
+    btnHotel.addEventListener ("click", function(){         
         let listHotel = travaux.filter (element => {
             return element.categoryId === 3       
         }) 
-        console.log(listHotel);
+        
         afficherGallery(listHotel);
         styleBtnFiltreActif();
         btnHotel.classList.add("btn__selected"); 
@@ -249,12 +243,13 @@ const tokenRecupere = window.sessionStorage.getItem("token");
 
     // Fonction à exécuter au clic sur le lien logout
 function onClickLogoutLink(event) {
+    // Empêcher le lien de rediriger vers une autre page
+    event.preventDefault();
     // Code pour la déconnexion de l'utilisateur : Enlève le token de la sessionStorage
     window.sessionStorage.removeItem("token");
     // Rafraichissement de la page
     location.reload();
-    // Empêcher le lien de rediriger vers une autre page
-    event.preventDefault();
+    
   
 };
 
@@ -263,6 +258,7 @@ function onClickLogoutLink(event) {
   
   // Ajouter un écouteur d'événement pour le clic sur le lien
   logoutLink.addEventListener('click', onClickLogoutLink);
+
 
 
 
@@ -333,7 +329,7 @@ function onClickLogoutLink(event) {
                     miniGallery.appendChild(commentAjout);                    
 
 
-
+/********************************************************************************* */
         //*********  FORMULAIRE AJOUT PHOTO DANS MODALE 2  *********                     
                     //Créer formulaire formAjoutPhoto
                     const formAjoutPhoto = document.createElement("form");
@@ -430,9 +426,8 @@ function onClickLogoutLink(event) {
 
               
                 // Écouter l'événement de click sur bouton (+ Ajouter photo)
-                ajoutImgMod2.addEventListener("click", function() {
-               
-                    console.log("bouton cliqué");
+                ajoutImgMod2.addEventListener("click", function() {            
+                    
                     miniGallery.innerHTML = "";
                    
                 //Création de la balise input avec ses attributs (imgMod2)
@@ -441,13 +436,7 @@ function onClickLogoutLink(event) {
                 imgMod2.type = "file";
                 imgMod2.accept = ".jpg, .png";
                 imgMod2.style.marginTop =  - 300 + "px";  
-                imgMod2.style.marginBottom =  280 + "px";
-                /* imgMod2.onchange = "handleImageUpload()" */
-
-                
-
-/* <input type="file" id="imageUpload" accept=".jpg, .jpeg, .png" onchange="handleImageUpload()" /> */
-
+                imgMod2.style.marginBottom =  280 + "px";    
 
 //******************************************************************************************************************** */
                                 // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
@@ -458,9 +447,28 @@ function onClickLogoutLink(event) {
                 // Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
                 imgMod2.addEventListener('change', function(event) {
                 const selectedFile = event.target.files[0]; // récupérer le fichier sélectionné
-    
+     // Vérifier la taille du fichier
+  if (selectedFile.size > 4 * 1024 * 1024) {
+    alert("La taille de l'image est supérieure à 4 Mo. Veuillez sélectionner une image plus petite.");
+    event.target.value = ""; // Réinitialiser la sélection du fichier
+    return; // Empêcher le téléchargement
+  }
+
+  // Vérifier l'extension du fichier
+  const allowedExtensions = ["jpg", "png"];
+  const fileName = selectedFile.name;
+  const fileExtension = fileName.split(".").pop().toLowerCase();
+  
+  if (!allowedExtensions.includes(fileExtension)) {
+    alert("L'extension du fichier n'est pas autorisée. Veuillez sélectionner un fichier avec une extension jpg ou png.");
+    event.target.value = ""; // Réinitialiser la sélection du fichier
+    return; // Empêcher le téléchargement
+  }
+  
+  // Si toutes les conditions sont remplies, permettre le téléchargement
+  // Votre code pour le traitement de l'image ici
                 // Vérifier si un fichier a été sélectionné
-                if (selectedFile) {
+                else if (selectedFile) {
                 // Créer un objet FileReader pour lire le contenu du fichier
                 const reader = new FileReader();
                     
@@ -491,50 +499,77 @@ function onClickLogoutLink(event) {
                 const firstChildElement = formAjoutPhoto.firstChild;
                 formAjoutPhoto.insertBefore(image, firstChildElement); 
 
+// Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
                 
-      
-
-                // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
-                /* imgMod2.parentNode.removeChild(imgMod2);*/
                 imgMod2.style.display = "none";
                 
-                 if (selectedFile.size >= 4 * 1024 * 1024) {
+                /*  if (selectedFile.size >= 4 * 1024 * 1024) {
                     image.style.display = "none";
                     console.log("taille image non conforme");
-                };  
- 
-                
+                    /* const textMessDelete = document.getElementById("deletePhoto");
+                    textMessDelete.innerText = ("taille image non conforme"); 
+                };  */              
 
-      });
-      
+      });      
                 // Lire le contenu du fichier en tant que Data URL
-                reader.readAsDataURL(selectedFile);              
+                reader.readAsDataURL(selectedFile);
                 
-    };
-      
+    };      
 
-  });
-                
-        // Affiche le bouton "choisir un fichier" dans miniGallery
-        /* miniGallery */ formAjoutPhoto.appendChild(imgMod2);
-                
+  });                
+        // Affiche le bouton "choisir un fichier" (input de l'image) dans le formulaire
+        formAjoutPhoto.appendChild(imgMod2);                
                 
     });
+
+
+      //***********************************************************************************************
+    //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
+    //***********************************************************************************************
+    function retourFleche (){
+            /* line.innerHTML = ""; */                        
+            buttonEvo.replaceWith(btnValider);
+            buttonValider.replaceWith(btnValider);   
+            titleModal2.innerHTML = "Galerie photo";
+            miniGallery.classList.remove("insert-image");
+            miniGallery.innerHTML = "";
+            formAjoutPhoto.remove(); 
+            btnValider.id = "ajouterPhoto";
+            btnValider.style = "";
+            btnValider.value = "Ajouter une photo";
+            miniGallery.classList.add("mini-gallery");
+            line.style.marginTop = "67.3px";            
+            retourIcon.remove();
+            recupTravaux();
+    }
+         // Écouter l'événement de flèche retour du formulaire
+         retourIcon.addEventListener("click", retourFleche); 
+            
+            
+              
 
 
 //*******************************************************************************************/
 //                       ***ENVOI FORMULAIRE A L'API***
 //*******************************************************************************************/
 
-buttonEvo.addEventListener("click", async function(event) {
-    event.preventDefault();
-    console.log("submit cliqué");
+ buttonEvo.addEventListener("click", async function(event) {
+    event.preventDefault();  
+    
+    buttonEvo.replaceWith(buttonValider);   
+    
     const tokenRecupere = window.sessionStorage.getItem("token");
     const image = document.getElementById("imgMod2");    
-    console.log(image.files[0]);
+    /* console.log(image.files[0]);
     console.log(titreInput.value);
     console.log(categorieSelect.value);
-    console.log(tokenRecupere);
+    console.log(tokenRecupere); */
+
+    const textMessAdded = document.createElement("p");
+    textMessAdded.id = "addPhoto";
+    const line = document.querySelector(".line");
+    line.appendChild(textMessAdded);
+    textMessAdded.style.marginTop = "-30px";
 
     const formData = new FormData();
     formData.append("image", image.files[0]);
@@ -552,42 +587,32 @@ buttonEvo.addEventListener("click", async function(event) {
 }) 
 
 
-.then(reponseAjout => reponseAjout.json())
+.then(reponseAjout => {
+    if (reponseAjout.status === 201){
+        return reponseAjout.json();                
+    } else{                                            
+        textMessAdded.style.color = "red";            
+        textMessAdded.innerText = (`Erreur ${reponseAjout.status}: ${reponseAjout.statusText}`);
+    } 
+})
 .then(data => {
-  console.log(data); // La réponse de l'API
+    const imgId = data.id;
+    const imgUrl = data.imageUrl;
+    const imgTitle = data.title;
+        
+    textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
+    textMessAdded.style.color = "green";
+    
+   
 })
 .catch(error => {
-  console.error(error);
-});
-       
-});     
+    console.error(error);
+ }); 
 
-    
-    //***********************************************************************************************
-    //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
-    //***********************************************************************************************
-    
-         // Écouter l'événement de flèche retour du formulaire
-        retourIcon.addEventListener("click",() => {            
+recupTravaux();
+retourFleche();   
 
-            console.log("flèche gauche cliquée");            
-            buttonEvo.replaceWith(btnValider);
-            buttonValider.replaceWith(btnValider);   
-            titleModal2.innerHTML = "Galerie photo";
-            miniGallery.classList.remove("insert-image");
-            miniGallery.innerHTML = "";
-            formAjoutPhoto.remove(); 
-            btnValider.id = "ajouterPhoto";
-            btnValider.style = "";
-            btnValider.value = "Ajouter une photo";
-            miniGallery.classList.add("mini-gallery");
-            line.style.marginTop = "67.3px";
-            
-            retourIcon.remove();
-            recupTravaux();
-          });
-          
-    }); 
-             
+        });
     
-       
+              });
+              
