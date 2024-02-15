@@ -329,7 +329,7 @@ footer {
 	margin-top: 38px;
 	margin-bottom: 45px;
 	background-color: #A7A7A7;	
-	border: none;	
+	border: none;		
 }
 
 .js-modal {	
@@ -487,12 +487,13 @@ li a {
 }
 
 #titreMod2 {
-	width: 420px;
+	width: 404px;
 	height: 51px;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
 	background: #FFF;
 	border: 0;	
 	margin-bottom: 21px;
+	padding-left: 16px;
 }
 
 #categorieMod2 {
@@ -500,7 +501,8 @@ li a {
 	height: 51px;
 	background: #FFF;
 	box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
-	border: 0;	
+	border: 0;
+	padding-left: 16px;	
 }
 
 #titreLabM2, #categLabM2 {

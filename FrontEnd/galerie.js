@@ -355,6 +355,7 @@ function onClickLogoutLink(event) {
                     titreInput.setAttribute("id", "titreMod2");
                     titreInput.setAttribute("name", "title");
                     titreInput.setAttribute("value", "");
+                    
 
                     // Créer l'élément label categorieLabel
                     const categorieLabel = document.createElement("label");
