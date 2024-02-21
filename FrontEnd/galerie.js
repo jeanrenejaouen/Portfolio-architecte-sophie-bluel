@@ -690,10 +690,49 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
     //Intégrer trashIcone à containIcon
     containIcon.appendChild(trashIcon);
    
+
+    trashIcon.addEventListener('click', async function() {
+        const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+imgId, {
+           method: 'DELETE',
+           headers: {
+               'Content-Type': 'application/json',
+               'Authorization': 'Bearer '+tokenRecupere                            
+           }  
+                              
+        }) 
+        
+       .then(response => {
+       if (response.ok) {               
+           const textMessDelete = document.createElement("p");
+           textMessDelete.id = "deletePhoto";
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);
+           miniFigure.remove();
+           figure.remove();
+           textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+           textMessDelete.style.color = "green";
+           textMessDelete.style.marginTop = "-40px";           
+           
+       } else {
+           const textMessDelete = document.createElement("p");
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);                        
+           textMessDelete.style.color = "red";
+           textMessDelete.style.marginTop = "-40px";
+           textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+       } 
+    })
+    .catch(error => console.error(error));
+    
+    /* recupTravaux();  */     
+    
+       }); 
 })
 .catch(error => {
     console.error(error);
  }); 
+
+ 
 
 /* recupTravaux(); */
 retourFleche();  
