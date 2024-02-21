@@ -68,9 +68,7 @@ function afficherGallery(tableTravaux){
     
 
     //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
-   
-
-     trashIcon.addEventListener('click', async function() {
+        trashIcon.addEventListener('click', async function() {
          const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
             method: 'DELETE',
             headers: {
@@ -515,18 +513,14 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
                 // Insérer le nom de l'image sélectionnée dans le titre du formulaire
                 titreInput.value = titreImgMod22;
 
-                   
-                image.src = reader.result; // obtenir l'URL de l'image
+                // obtenir l'URL de l'image   
+                image.src = reader.result; 
                 image.width = "140";
                 image.height = "167";                 
                 image.name = "image";
-                image.id = "imageSelected"                 
-                
+                image.id = "imageSelected"               
                                            
-                // Ajouter l'image en tant que premier enfant de formAjoutPhoto
-                /* formAjoutPhoto.appendChild(image); */
-                /* const firstChildElement = formAjoutPhoto.firstChild;
-                formAjoutPhoto.insertBefore(image, firstChildElement); */ 
+                // Ajouter l'image en tant que premier enfant de insertImage                
                 const firstChildElement = insertImage.firstChild;
                 insertImage.insertBefore(image, firstChildElement);
                 
@@ -574,7 +568,8 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
             retourIcon.remove();
             /* recupTravaux(); */
             miniGallery.style.display = "";
-            
+            const textMessFormatImage = document.getElementById("addPhoto");
+            textMessFormatImage.remove();
             
     }
 
