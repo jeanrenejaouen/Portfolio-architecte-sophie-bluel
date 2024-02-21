@@ -577,7 +577,8 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
 
 
 //*******************************************************************************************/
-//                       ***ENVOI FORMULAIRE A L'API***
+//                       ***ENVOI NOUVEAUX TRAVAUX A L'API VIA FORMULAIRE***
+//                      ***SUPPRESSION POSSIBLE SANS RAFRAICHIR***
 //*******************************************************************************************/
 
  buttonEvo.addEventListener("click", async function(event) {
