@@ -9,17 +9,16 @@ const submitBtn = document.querySelector(".log-btn")
 
 const loginError = document.querySelector(".login-error")
 
-let emailInput = ""
-let passwordInput = ""
+let emailInput = "";
+let passwordInput = "";
 
-
- //Événement de clic sur le bouton de soumission du formulaire de connexion. 
+//Événement de clic sur le bouton de soumission du formulaire de connexion. 
 submitBtn.addEventListener("click", async (e) => {
     // Désactivation du comportement par défaut du navigateur
     e.preventDefault()
 
     // Création de l'objet user avec email et password    
-    const email = document.getElementById("email").value;
+    const email = document.getElementById("email").value;    
     const password = document.getElementById("password").value;
     let user = { "email": email, "password": password};
     

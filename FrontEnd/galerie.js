@@ -1,5 +1,5 @@
 /* Fonction qui permettra de modifier le DOM une fois appelée */
-function afficherGallery (tableTravaux){
+function afficherGallery(tableTravaux){
 
     /* Rafraichissement de la page pour éviter le rajout à la suite */    
     document.querySelector(".mini-gallery").innerHTML = '';
@@ -65,26 +65,32 @@ function afficherGallery (tableTravaux){
                 //Intégrer trashIcone à containIcon
                 containIcon.appendChild(trashIcon);
                 
-
+    
 
     //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
-    trashIcon.addEventListener('click', async function() {
-        const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
+   
+
+     trashIcon.addEventListener('click', async function() {
+         const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+article.id, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer '+tokenRecupere                            
-            }                      
-        })  
+            }  
+                               
+         }) 
+         
         .then(response => {
         if (response.ok) {               
             const textMessDelete = document.createElement("p");
             textMessDelete.id = "deletePhoto";
             const line = document.querySelector(".line");
             line.appendChild(textMessDelete);
-            textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie";
+            miniFigure.remove();
+            figure.remove();
+            textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie"; 
             textMessDelete.style.color = "green";
-            textMessDelete.style.marginTop = "-40px";
+            textMessDelete.style.marginTop = "-40px";           
             
         } else {
             const textMessDelete = document.createElement("p");
@@ -97,20 +103,15 @@ function afficherGallery (tableTravaux){
     })
     .catch(error => console.error(error));
 
-    recupTravaux();
-    /* miniFigure.remove();
-    figure.remove(); */    
+     /* recupTravaux();  */     
 
-        });
-
+        }); 
         function deleteFault() {
-        const element = document.getElementById("deletePhoto");
-        element.style.display = "none";
-        };
-});
-
-            
-           
+            const element = document.getElementById("deletePhoto");
+            element.style.display = "none";
+            };
+    });  
+      
 };
 
 
@@ -184,10 +185,14 @@ async function recupTravaux() {
         styleBtnFiltreActif();
         btnHotel.classList.add("btn__selected"); 
     });  
- 
- };
+
+
+};    
+
 /* Rappel de la fonction pour réaliser la modification du DOM */
 recupTravaux();
+
+
 
 
 //********************************************************************************************************/
@@ -280,7 +285,8 @@ function onClickLogoutLink(event) {
                     //Changer titre de la modale
                     titleModal2.innerHTML = "Ajout photo";
                     const miniGallery = document.querySelector(".mini-gallery");
-                    miniGallery.innerHTML = "";
+                    /* miniGallery.innerHTML = ""; */
+                    miniGallery.style.display = "none";
                     //Création de l'icone retour
                     const retourIcon = document.createElement("i");
                     //Rajouter classe à l'icone retour
@@ -290,12 +296,13 @@ function onClickLogoutLink(event) {
                     //Intégrer retourIcone à modalWrapper                    
                     modalWrapper.appendChild(retourIcon);
                     //Rajouter une classe à mminiGallery pour créer un rectangle fond gris
-                    miniGallery.classList.add("insert-image");
+                    /* miniGallery.classList.add("insert-image"); */
                     //Création de l'icone picture                    
                     const pictureIcon = document.createElement("i");
                     //Rajouter classe à l'icone picture
                     pictureIcon.classList.add("fa-regular", "fa-image");
-                    miniGallery.appendChild(pictureIcon);
+                    pictureIcon.style.marginTop = "-200px";
+                    /* formAjoutPhoto.appendChild(pictureIcon); */
                     //Modifier le style du bouton Ajouter photo
                     
                     const btnValider = document.getElementById("ajouterPhoto");
@@ -318,15 +325,20 @@ function onClickLogoutLink(event) {
                     // Définir la valeur du bouton
                     ajouterPhoto.setAttribute('value', '+ Ajouter photo');
                     ajouterPhoto.id = "ajout-photo";
+                    
                     // Ajouter l'input à un élément existant 
-                    document.getElementById('miniGallery').appendChild(ajouterPhoto);
+                    /* document.getElementById('miniGallery').appendChild(ajouterPhoto); */
+                    /* formAjoutPhoto.appendChild(ajouterPhoto); */
 
                     //Créer l'élément p (jpg, png : 4mo max)
                     const commentAjout = document.createElement("p");
                     //Ajouter le contenu texte (jpg, png : 4mo max)
                     commentAjout.innerText = "jpg, png : 4mo max";
+                    commentAjout.style.marginBottom = "50px";
+                    commentAjout.style.marginTop = "-1px";
+                    commentAjout.style.fontSize = "10px";
                     //Ajouter l'élément p à miniGallery
-                    miniGallery.appendChild(commentAjout);                    
+                    /* formAjoutPhoto.appendChild(commentAjout); */                    
 
 
 /********************************************************************************* */
@@ -336,10 +348,10 @@ function onClickLogoutLink(event) {
                     // Ajouter attribut autocomplete
                     formAjoutPhoto.setAttribute("autocomplete", "on"); 
                     // Ajouter un id au formulaire (formAjouPhoto) 
-                    formAjoutPhoto.id = "form-ajout";                                       
-                   //positionner formAjoutPhoto après miniGallery
-                    miniGallery.insertAdjacentElement("afterend", formAjoutPhoto);
-                                        
+                    formAjoutPhoto.id = "form-ajout";                                      
+                   //positionner formAjoutPhoto après titre modale
+                    titleModal2.insertAdjacentElement("afterend", formAjoutPhoto);
+                                       
                     // Créer l'élément label titreLabel
                     const titreLabel = document.createElement("label");
                     // Définir l'attribut de titreLabel 
@@ -347,7 +359,7 @@ function onClickLogoutLink(event) {
                     // Définir le texte de titreLabel
                     titreLabel.textContent = "Titre";
                     titreLabel.setAttribute("id", "titreLabM2");
-
+                    
                     // Créez l'élément input titreInput
                     const titreInput = document.createElement("input");                    
                     // Définir les attributs de titreInput
@@ -382,12 +394,22 @@ function onClickLogoutLink(event) {
                     const option3 = document.createElement("option");
                     option3.textContent = "Hôtels & restaurants";
                     option3.value = 3;
+
+                    const insertImage = document.createElement("div");
+                    insertImage.classList.add("insert-image");
+                    
+                    
                     
                     // Ajoutez l'input et select au formulaire (formAjoutPhoto)
+                    formAjoutPhoto.appendChild(insertImage);
+                    formAjoutPhoto.appendChild(pictureIcon);
+                    formAjoutPhoto.appendChild(ajouterPhoto);
+                    formAjoutPhoto.appendChild(commentAjout);                    
                     formAjoutPhoto.appendChild(titreLabel);
                     formAjoutPhoto.appendChild(titreInput);
                     formAjoutPhoto.appendChild(categorieLabel);
                     formAjoutPhoto.appendChild(categorieSelect);
+                                       
                     categorieSelect.appendChild(option0);
                     categorieSelect.appendChild(option1);
                     categorieSelect.appendChild(option2);
@@ -427,17 +449,18 @@ function onClickLogoutLink(event) {
 
               
                 // Écouter l'événement de click sur bouton (+ Ajouter photo)
-                ajoutImgMod2.addEventListener("click", function() {            
-                    
-                    miniGallery.innerHTML = "";
+                ajoutImgMod2.addEventListener("click", function(event) {            
+                    event.preventDefault();
+                    /* miniGallery.innerHTML = ""; */
                    
                 //Création de la balise input avec ses attributs (imgMod2)
                 const imgMod2 = document.createElement("input"); 
                 imgMod2.id = "imgMod2";                
                 imgMod2.type = "file";
                 imgMod2.accept = ".jpg, .png";
-                imgMod2.style.marginTop =  - 300 + "px";  
-                imgMod2.style.marginBottom =  280 + "px";    
+                /* imgMod2.style.marginTop =  "50px"; 
+                imgMod2.style.marginBottom = "20px"; */
+                /* formAjoutPhoto.appendChild(imgMod2);  */   
 
 //******************************************************************************************************************** */
                                 // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
@@ -487,65 +510,68 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
                    
                 image.src = reader.result; // obtenir l'URL de l'image
                 image.width = "140";
-                image.height = "167"; 
-                image.style.marginTop =  - 198 + "px";  
-                image.style.marginBottom =  21 + "px"; 
+                image.height = "167";                 
                 image.name = "image";
-                image.id = "imageSelected" 
+                image.id = "imageSelected"                 
                 
-                window.sessionStorage.setItem("image", image.src);
                                            
                 // Ajouter l'image en tant que premier enfant de formAjoutPhoto
                 /* formAjoutPhoto.appendChild(image); */
-                const firstChildElement = formAjoutPhoto.firstChild;
-                formAjoutPhoto.insertBefore(image, firstChildElement); 
+                /* const firstChildElement = formAjoutPhoto.firstChild;
+                formAjoutPhoto.insertBefore(image, firstChildElement); */ 
+                const firstChildElement = insertImage.firstChild;
+                insertImage.insertBefore(image, firstChildElement);
+                
 
 // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
                 
-                imgMod2.style.display = "none";
-                
-                /*  if (selectedFile.size >= 4 * 1024 * 1024) {
-                    image.style.display = "none";
-                    console.log("taille image non conforme");
-                    /* const textMessDelete = document.getElementById("deletePhoto");
-                    textMessDelete.innerText = ("taille image non conforme"); 
-                };  */              
+                imgMod2.style.display = "none";                
+                             
 
-      });      
+      }); 
+
                 // Lire le contenu du fichier en tant que Data URL
                 reader.readAsDataURL(selectedFile);
                 
     };      
 
   });                
-        // Affiche le bouton "choisir un fichier" (input de l'image) dans le formulaire
-        formAjoutPhoto.appendChild(imgMod2);                
-                
+        // Affiche le bouton "choisir un fichier" (input de l'image) dans rectangle gris (insertImage)
+        insertImage.appendChild(imgMod2);
+        // Supprime l'icone, le commentaire et le bouton (+ ajouter photo), pour laisser place à imgMod2             
+        pictureIcon.remove(); 
+        ajouterPhoto.remove();
+        commentAjout.remove();       
     });
 
-
+    
       //***********************************************************************************************
     //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
     //***********************************************************************************************
-    function retourFleche (){
+    function retourFleche (){       
             /* line.innerHTML = ""; */                        
             buttonEvo.replaceWith(btnValider);
             buttonValider.replaceWith(btnValider);   
-            titleModal2.innerHTML = "Galerie photo";
-            miniGallery.classList.remove("insert-image");
-            miniGallery.innerHTML = "";
-            formAjoutPhoto.remove(); 
+            titleModal2.innerHTML = "Galerie photo"; 
+            /* miniGallery.classList.remove("insert-image"); */
+            /* miniGallery.innerHTML = ""; */
+            /* formAjoutPhoto.remove(); */
+            formAjoutPhoto.style.display = "none"; 
             btnValider.id = "ajouterPhoto";
             btnValider.style = "";
-            btnValider.value = "Ajouter une photo";
-            miniGallery.classList.add("mini-gallery");
+            btnValider.value = "Ajouter une photo"; 
+            /* miniGallery.classList.add("mini-gallery"); */
             line.style.marginTop = "67.3px";            
             retourIcon.remove();
-            recupTravaux();
+            /* recupTravaux(); */
+            miniGallery.style.display = "";
+            
+            
     }
+
          // Écouter l'événement de flèche retour du formulaire
          retourIcon.addEventListener("click", retourFleche); 
-            
+           
             
               
 
@@ -556,6 +582,9 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
 
  buttonEvo.addEventListener("click", async function(event) {
     event.preventDefault();  
+
+/* buttonEvo.addEventListener("click", ajoutAffichage { */
+    
     
     buttonEvo.replaceWith(buttonValider);   
     
@@ -600,18 +629,75 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
     const imgId = data.id;
     const imgUrl = data.imageUrl;
     const imgTitle = data.title;
-        
-    textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
-    textMessAdded.style.color = "green";
+           
+    /* textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
+    textMessAdded.style.color = "green"; */
     
+    const gallery = document.querySelector(".gallery");
+    //Création de la balise mini-figure
+    const figure = document.createElement("figure");
+    //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    figure.id = "figure"+imgId;
+    //Création de la balise figcaption
+    const figcaption = document.createElement("figcaption");
+    figcaption.style.marginTop = "7px";
+    //Création de la balise img (image)
+    const img = document.createElement("img");                
+    //Récupération source de l'image
+    img.src = imgUrl;
+    //Récupération texte de l'image
+    img.width = 346;
+    img.height = 416;
+    figcaption.innerText = imgTitle;     
+    //On rattache la balise figure a la balise (div class="gallery")
+    gallery.appendChild(figure);
+    //On rattache l'image et son texte à la balise figure
+    figure.appendChild(img); 
+    figure.appendChild(figcaption); 
+
+    
+    /* function modale1(){  */   
+    //Création de la balise mini-figure
+    const miniFigure = document.createElement("mini-figure");
+    //Rajouter classe à miniFigure
+    miniFigure.classList.add("mini-figure")                
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    miniFigure.id = "miniFigure"+imgId;                
+    //Création du clone de l'image
+    const cloneImg = img.cloneNode(true)
+    //Rajouter classe à cloneImg
+    cloneImg.classList.add("cloneImg");                    
+    //On rattache la balise miniFigure a la balise miniGallery
+    miniGallery.appendChild(miniFigure);
+
+    //On rattache le clone de l'image à la balise miniFigure
+    miniFigure.appendChild(cloneImg); 
+    
+    //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
+    const containIcon = document.createElement("span");
+    //Rajouter classe .corb à containIcon
+    containIcon.classList.add("corb");
+    //Intégrer containIcon à l'élément DOM miniFigure
+    miniFigure.appendChild(containIcon);
+
+    //Création de l'icone corbeille
+    const trashIcon = document.createElement("i");
+    //Rajouter classe à l'icone corbeille
+    trashIcon.classList.add("fa-solid", "fa-trash-can");
+    //Intégrer trashIcone à containIcon
+    containIcon.appendChild(trashIcon);
    
 })
 .catch(error => {
     console.error(error);
  }); 
 
-recupTravaux();
-retourFleche();   
+/* recupTravaux(); */
+retourFleche();  
+
 
         });
     

@@ -227,3 +227,7 @@ footer {
 #nav-login {
 	font-weight: 600;
 }
+
+.log-btn {
+	cursor: pointer;
+}
