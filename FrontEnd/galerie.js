@@ -569,9 +569,10 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
             /* recupTravaux(); */
             miniGallery.style.display = "";
             const textMessFormatImage = document.getElementById("addPhoto");
-            textMessFormatImage.remove();
-            
-    }
+            if (textMessFormatImage !==null){
+                textMessFormatImage.style.color = "white"
+    };
+};
 
          // Écouter l'événement de flèche retour du formulaire
          retourIcon.addEventListener("click", retourFleche); 
