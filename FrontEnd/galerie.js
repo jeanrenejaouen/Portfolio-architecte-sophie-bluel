@@ -87,10 +87,10 @@ function afficherGallery(tableTravaux){
             const line = document.querySelector(".line");
             line.appendChild(textMessDelete);
             miniFigure.remove();
-            figure.remove();
-            textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie"; 
+            figure.remove();            
+            /* textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie"; 
             textMessDelete.style.color = "green";
-            textMessDelete.style.marginTop = "-40px";           
+            textMessDelete.style.marginTop = "-40px";  */          
             
         } else {
             const textMessDelete = document.createElement("p");
@@ -467,13 +467,21 @@ function onClickLogoutLink(event) {
                                 // DE SELECTIONNER UN FICHIER IMAGE
                                 // ET DE L AFFICHER DANS LE FORMULAIRE DE LA MODALE 2
 //******************************************************************************************************************** */
-        
+const textMessFormatImage = document.createElement("p");
+textMessFormatImage.id = "addPhoto";
+const line = document.querySelector(".line");
+line.appendChild(textMessFormatImage);
+textMessFormatImage.style.color = "orange";
+textMessFormatImage.style.marginTop = "-320px";
+/*textMessFormatImage.style.margingBottom = "30px"; */  
+
 // Ajouter un écouteur d'événement pour détecter quand un fichier est sélectionné
 imgMod2.addEventListener('change', function(event) {
 const selectedFile = event.target.files[0]; // récupérer le fichier sélectionné
+
      // Vérifier la taille du fichier
   if (selectedFile.size > 4 * 1024 * 1024) {
-    alert("La taille de l'image est supérieure à 4 Mo. Veuillez sélectionner une image plus petite.");
+    textMessFormatImage.innerHTML = "La taille de l'image est supérieure à 4 Mo. Veuillez sélectionner une image plus petite.";
     event.target.value = ""; // Réinitialiser la sélection du fichier
     return; // Empêcher le téléchargement
   }
@@ -484,7 +492,7 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
   const fileExtension = fileName.split(".").pop().toLowerCase();
   
   if (!allowedExtensions.includes(fileExtension)) {
-    alert("L'extension du fichier n'est pas autorisée. Veuillez sélectionner un fichier avec une extension jpg ou png.");
+    textMessFormatImage.innerHTML = "L'extension du fichier n'est pas autorisée. Veuillez sélectionner un fichier avec une extension jpg ou png.";
     event.target.value = ""; // Réinitialiser la sélection du fichier
     return; // Empêcher le téléchargement
   }
@@ -495,7 +503,7 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
                 else if (selectedFile) {
                 // Créer un objet FileReader pour lire le contenu du fichier
                 const reader = new FileReader();
-                    
+                textMessFormatImage.remove();
                 // Ajouter un écouteur d'événement pour détecter quand la lecture est terminée
                 reader.addEventListener('load', function() {
                 const image = document.createElement('img');
@@ -541,7 +549,8 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
         // Supprime l'icone, le commentaire et le bouton (+ ajouter photo), pour laisser place à imgMod2             
         pictureIcon.remove(); 
         ajouterPhoto.remove();
-        commentAjout.remove();       
+        commentAjout.remove();
+               
     });
 
     
@@ -629,8 +638,8 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
 .then(data => {
     const imgId = data.id;
     const imgUrl = data.imageUrl;
-    const imgTitle = data.title;
-           
+    const imgTitle = data.title;     
+    
     /* textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
     textMessAdded.style.color = "green"; */
     
@@ -710,9 +719,9 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
            line.appendChild(textMessDelete);
            miniFigure.remove();
            figure.remove();
-           textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+           /* textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
            textMessDelete.style.color = "green";
-           textMessDelete.style.marginTop = "-40px";           
+           textMessDelete.style.marginTop = "-40px"; */           
            
        } else {
            const textMessDelete = document.createElement("p");
