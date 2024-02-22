@@ -1,71 +1,72 @@
+
+
 /* Fonction qui permettra de modifier le DOM une fois appelée */
 function afficherGallery(tableTravaux){
+        /* Rafraichissement de la page pour éviter le rajout à la suite */    
+        document.querySelector(".mini-gallery").innerHTML = '';
+        //Récupération de l'élément du DOM qui accueillera les articles
+        const gallery = document.querySelector(".gallery");
+        gallery.innerHTML = '';
 
-    /* Rafraichissement de la page pour éviter le rajout à la suite */    
-    document.querySelector(".mini-gallery").innerHTML = '';
-    //Récupération de l'élément du DOM qui accueillera les articles
-    const gallery = document.querySelector(".gallery");
-    gallery.innerHTML = '';
-       
-    tableTravaux.forEach(article => {    
-              //Création de la balise mini-figure
-                const figure = document.createElement("figure");
-                //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
-                //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
-                //Permettra de supprimer ou rajouter une image
-                figure.id = "figure"+article.id;
-                //Création de la balise figcaption
-                const figcaption = document.createElement("figcaption");
-                figcaption.style.marginTop = "7px";
-                //Création de la balise img (image)
-                const img = document.createElement("img");                
-                //Récupération source de l'image
-                img.src = article.imageUrl;
-                //Récupération texte de l'image
-                img.width = 346;
-                img.height = 416;
-                figcaption.innerText = article.title;     
-                //On rattache la balise figure a la balise (div class="gallery")
-                gallery.appendChild(figure);
-                //On rattache l'image et son texte à la balise figure
-                figure.appendChild(img); 
-                figure.appendChild(figcaption); 
 
     
+    tableTravaux.forEach(article => {  
+        //Création de la balise mini-figure
+        const figure = document.createElement("figure");
+        //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
+        //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+        //Permettra de supprimer ou rajouter une image
+        figure.id = "figure"+article.id;
+        //Création de la balise figcaption
+        const figcaption = document.createElement("figcaption");
+        figcaption.style.marginTop = "7px";
+        //Création de la balise img (image)
+        const img = document.createElement("img");                
+        //Récupération source de l'image
+        img.src = article.imageUrl;
+        //Récupération texte de l'image
+        img.width = 346;
+        img.height = 416;
+        figcaption.innerText = article.title;     
+        //On rattache la balise figure a la balise (div class="gallery")
+        gallery.appendChild(figure);
+        //On rattache l'image et son texte à la balise figure
+        figure.appendChild(img); 
+        figure.appendChild(figcaption); 
+        
+   
+        //Création de la balise mini-figure
+        const miniFigure = document.createElement("mini-figure");
+        //Rajouter classe à miniFigure
+        miniFigure.classList.add("mini-figure")                
+        //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+        //Permettra de supprimer ou rajouter une image
+        miniFigure.id = "miniFigure"+article.id;                
+        //Création du clone de l'image
+        const cloneImg = img.cloneNode(true)
+        //Rajouter classe à cloneImg
+        cloneImg.classList.add("cloneImg");                    
+        //On rattache la balise miniFigure a la balise miniGallery
+        miniGallery.appendChild(miniFigure);
 
-        /* function modale1(){  */   
-                //Création de la balise mini-figure
-                const miniFigure = document.createElement("mini-figure");
-                //Rajouter classe à miniFigure
-                miniFigure.classList.add("mini-figure")                
-                //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
-                //Permettra de supprimer ou rajouter une image
-                miniFigure.id = "miniFigure"+article.id;                
-                //Création du clone de l'image
-                const cloneImg = img.cloneNode(true)
-                //Rajouter classe à cloneImg
-                cloneImg.classList.add("cloneImg");                    
-                //On rattache la balise miniFigure a la balise miniGallery
-                miniGallery.appendChild(miniFigure);
+        //On rattache le clone de l'image à la balise miniFigure
+        miniFigure.appendChild(cloneImg); 
+        
+        //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
+        const containIcon = document.createElement("span");
+        //Rajouter classe .corb à containIcon
+        containIcon.classList.add("corb");
+        //Intégrer containIcon à l'élément DOM miniFigure
+        miniFigure.appendChild(containIcon);
 
-                //On rattache le clone de l'image à la balise miniFigure
-                miniFigure.appendChild(cloneImg); 
-                
-                //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
-                const containIcon = document.createElement("span");
-                //Rajouter classe .corb à containIcon
-                containIcon.classList.add("corb");
-                //Intégrer containIcon à l'élément DOM miniFigure
-                miniFigure.appendChild(containIcon);
+        //Création de l'icone corbeille
+        const trashIcon = document.createElement("i");
+        //Rajouter classe à l'icone corbeille
+        trashIcon.classList.add("fa-solid", "fa-trash-can");
+        //Intégrer trashIcone à containIcon
+        containIcon.appendChild(trashIcon);
 
-                //Création de l'icone corbeille
-                const trashIcon = document.createElement("i");
-                //Rajouter classe à l'icone corbeille
-                trashIcon.classList.add("fa-solid", "fa-trash-can");
-                //Intégrer trashIcone à containIcon
-                containIcon.appendChild(trashIcon);
-                
-    
+
 
     //Le code suivant permet de supprimer au click sur corbeille l'image miniature de la modale, de la gallery, de la bdd
         trashIcon.addEventListener('click', async function() {
@@ -100,29 +101,17 @@ function afficherGallery(tableTravaux){
         } 
     })
     .catch(error => console.error(error));
-
-     /* recupTravaux();  */     
+          
 
         }); 
-        function deleteFault() {
+        
+       /*  function deleteFault() {
             const element = document.getElementById("deletePhoto");
             element.style.display = "none";
-            };
-    });  
-      
+            }; */
+  });  
+
 };
-
-
-/* Fonction qui déselectionne tous les boutons tout en conservant leur style */
-function styleBtnFiltreActif() {
-    const listeBtn = document.getElementsByClassName("btn");
-    for (let i=0; i<listeBtn.length; i++){		
-		/* console.log (listeBtn[i]); */		
-		listeBtn[0].className="btn btn__tous";
-        listeBtn[1].className="btn btn__objets";
-        listeBtn[2].className="btn btn__appartements";
-        listeBtn[3].className="btn btn__hotel";        
-}};
 
 /* Fonction asynchrone qui récupère les éléments de l'API works */
 async function recupTravaux() {
@@ -133,6 +122,18 @@ async function recupTravaux() {
 
     /* Rappel fonction "afficherGallery" qui prépare la modification du DOM avec les éléments de l'API*/   
     afficherGallery(travaux);
+
+    /* Fonction qui déselectionne tous les boutons tout en conservant leur style */
+    function styleBtnFiltreActif() {
+        const listeBtn = document.getElementsByClassName("btn");
+        for (let i=0; i<listeBtn.length; i++){
+        /* console.log (listeBtn[i]); */
+        listeBtn[0].className="btn btn__tous";
+        listeBtn[1].className="btn btn__objets";
+        listeBtn[2].className="btn btn__appartements";
+        listeBtn[3].className="btn btn__hotel";
+        };
+    };
         
     
     /* BOUTON FILTRE TOUS */
@@ -247,12 +248,11 @@ const tokenRecupere = window.sessionStorage.getItem("token");
     // Fonction à exécuter au clic sur le lien logout
 function onClickLogoutLink(event) {
     // Empêcher le lien de rediriger vers une autre page
-    event.preventDefault();
+    event.preventDefault();        
     // Code pour la déconnexion de l'utilisateur : Enlève le token de la sessionStorage
     window.sessionStorage.removeItem("token");
     // Rafraichissement de la page
-    location.reload();
-    
+    location.reload();    
   
 };
 
@@ -275,8 +275,7 @@ function onClickLogoutLink(event) {
               // Écouter l'événement de soumission du formulaire
               OpenModale2.addEventListener("click", function(event) {
                     // Empêche l'envoi du formulaire
-                    event.preventDefault(); 
-                    
+                    event.preventDefault();                    
                                                
                     // Récupérer le titre de la modale avec l'ID "titleModal"
                     const titleModal2 = document.getElementById("titleModal");
@@ -461,9 +460,9 @@ function onClickLogoutLink(event) {
                 /* formAjoutPhoto.appendChild(imgMod2);  */   
 
 //******************************************************************************************************************** */
-                                // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
-                                // DE SELECTIONNER UN FICHIER IMAGE
-                                // ET DE L AFFICHER DANS LE FORMULAIRE DE LA MODALE 2
+            // LE CODE CI DESSOUS PERMET D OUVRIR L EXPLORATEUR WINDOWS
+            // DE SELECTIONNER UN FICHIER IMAGE
+            // ET DE L AFFICHER DANS LE FORMULAIRE DE LA MODALE 2
 //******************************************************************************************************************** */
 const textMessFormatImage = document.createElement("p");
 textMessFormatImage.id = "addPhoto";
@@ -495,8 +494,7 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
     return; // Empêcher le téléchargement
   }
   
-  // Si toutes les conditions sont remplies, permettre le téléchargement
-  // Votre code pour le traitement de l'image ici
+  // Si toutes les conditions sont remplies, permettre le téléchargement  
                 // Vérifier si un fichier a été sélectionné
                 else if (selectedFile) {
                 // Créer un objet FileReader pour lire le contenu du fichier
@@ -551,22 +549,16 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
       //***********************************************************************************************
     //                 GESTION DE LA FLECHE RETOUR DE LA MODALE 2
     //***********************************************************************************************
-    function retourFleche (){       
-            /* line.innerHTML = ""; */                        
+    function retourFleche (){                                     
             buttonEvo.replaceWith(btnValider);
             buttonValider.replaceWith(btnValider);   
-            titleModal2.innerHTML = "Galerie photo"; 
-            /* miniGallery.classList.remove("insert-image"); */
-            /* miniGallery.innerHTML = ""; */
-            /* formAjoutPhoto.remove(); */
+            titleModal2.innerHTML = "Galerie photo";             
             formAjoutPhoto.style.display = "none"; 
             btnValider.id = "ajouterPhoto";
             btnValider.style = "";
-            btnValider.value = "Ajouter une photo"; 
-            /* miniGallery.classList.add("mini-gallery"); */
+            btnValider.value = "Ajouter une photo";             
             line.style.marginTop = "67.3px";            
-            retourIcon.remove();
-            /* recupTravaux(); */
+            retourIcon.remove();            
             miniGallery.style.display = "";
             const textMessFormatImage = document.getElementById("addPhoto");
             if (textMessFormatImage !==null){
@@ -575,32 +567,21 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
 };
 
          // Écouter l'événement de flèche retour du formulaire
-         retourIcon.addEventListener("click", retourFleche); 
-           
+         retourIcon.addEventListener("click", retourFleche);      
             
-              
-
-
+ 
 //*******************************************************************************************/
-//                       ***ENVOI NOUVEAUX TRAVAUX A L'API VIA FORMULAIRE***
-//                      ***SUPPRESSION POSSIBLE SANS RAFRAICHIR***
+//             ***ENVOI NOUVEAUX TRAVAUX A L'API VIA FORMULAIRE***
+//             ***SUPPRESSION POSSIBLE SANS RAFRAICHIR***
 //*******************************************************************************************/
 
  buttonEvo.addEventListener("click", async function(event) {
     event.preventDefault();  
 
-/* buttonEvo.addEventListener("click", ajoutAffichage { */
-    
-    
     buttonEvo.replaceWith(buttonValider);   
     
     const tokenRecupere = window.sessionStorage.getItem("token");
     const image = document.getElementById("imgMod2");    
-    /* console.log(image.files[0]);
-    console.log(titreInput.value);
-    console.log(categorieSelect.value);
-    console.log(tokenRecupere); */
-
     const textMessAdded = document.createElement("p");
     textMessAdded.id = "addPhoto";
     const line = document.querySelector(".line");
@@ -638,7 +619,6 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
     
     /* textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
     textMessAdded.style.color = "green"; */
-    
     const gallery = document.querySelector(".gallery");
     //Création de la balise mini-figure
     const figure = document.createElement("figure");
@@ -714,10 +694,10 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
            const line = document.querySelector(".line");
            line.appendChild(textMessDelete);
            miniFigure.remove();
-           figure.remove();
-           /* textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+           figure.remove();            
+           /* textMessDelete.innerText = "Suppression ( " + (article.title) + " ) réussie"; 
            textMessDelete.style.color = "green";
-           textMessDelete.style.marginTop = "-40px"; */           
+           textMessDelete.style.marginTop = "-40px";  */          
            
        } else {
            const textMessDelete = document.createElement("p");
@@ -727,20 +707,14 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
            textMessDelete.style.marginTop = "-40px";
            textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
        } 
-    })
-    .catch(error => console.error(error));
-    
-    /* recupTravaux();  */     
-    
-       }); 
+   })
+   .catch(error => console.error(error));
+         
+
+       });
+        
 })
-.catch(error => {
-    console.error(error);
- }); 
 
- 
-
-/* recupTravaux(); */
 retourFleche();  
 
 
@@ -748,3 +722,38 @@ retourFleche();
     
               });
               
+
+              async function supprimer() {
+                const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+imgId, {
+                   method: 'DELETE',
+                   headers: {
+                       'Content-Type': 'application/json',
+                       'Authorization': 'Bearer '+tokenRecupere                            
+                   }  
+                                      
+                }) 
+                
+               .then(response => {
+               if (response.ok) {               
+                   const textMessDelete = document.createElement("p");
+                   textMessDelete.id = "deletePhoto";
+                   const line = document.querySelector(".line");
+                   line.appendChild(textMessDelete);
+                   miniFigure.remove();
+                   figure.remove();
+                   /* textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+                   textMessDelete.style.color = "green";
+                   textMessDelete.style.marginTop = "-40px"; */           
+                   
+               } else {
+                   const textMessDelete = document.createElement("p");
+                   const line = document.querySelector(".line");
+                   line.appendChild(textMessDelete);                        
+                   textMessDelete.style.color = "red";
+                   textMessDelete.style.marginTop = "-40px";
+                   textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+               } 
+            })
+            .catch(error => console.error(error));        
+            
+               };

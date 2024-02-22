@@ -1,60 +1,196 @@
-/* en javascript comment sélectionner une image dans l'explorateur windows et l'enregistrer dans un input de formulaire
-ChatGPT
 
-En JavaScript, vous ne pouvez pas accéder directement aux fichiers présents dans l'explorateur Windows. Cependant, vous pouvez utiliser l'élément input de type file pour permettre à l'utilisateur de sélectionner une image et l'enregistrer dans un formulaire.
+function afficherToutSuppImg(){
+    const gallery = document.querySelector(".gallery");
+    //Création de la balise mini-figure
+    const figure = document.createElement("figure");
+    //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    
+    //Création de la balise figcaption
+    const figcaption = document.createElement("figcaption");
+    figcaption.style.marginTop = "7px";
+    //Création de la balise img (image)
+    const img = document.createElement("img");                
+    //Récupération source de l'image
+    
+    //Récupération texte de l'image
+    img.width = 346;
+    img.height = 416;
+         
+    //On rattache la balise figure a la balise (div class="gallery")
+    gallery.appendChild(figure);
+    //On rattache l'image et son texte à la balise figure
+    figure.appendChild(img); 
+    figure.appendChild(figcaption); 
 
-Voici comment vous pouvez faire cela :
+    
+    /* function modale1(){  */   
+    //Création de la balise mini-figure
+    const miniFigure = document.createElement("mini-figure");
+    //Rajouter classe à miniFigure
+    miniFigure.classList.add("mini-figure")                
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    miniFigure.id = "miniFigure"+imgId;                
+    //Création du clone de l'image
+    const cloneImg = img.cloneNode(true)
+    //Rajouter classe à cloneImg
+    cloneImg.classList.add("cloneImg");                    
+    //On rattache la balise miniFigure a la balise miniGallery
+    miniGallery.appendChild(miniFigure);
 
-HTML :
- */
- 
-<form id="monFormulaire">
-  <input type="file" id="imageInput">
-  <input type="submit" value="Envoyer">
-</form>
+    //On rattache le clone de l'image à la balise miniFigure
+    miniFigure.appendChild(cloneImg); 
+    
+    //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
+    const containIcon = document.createElement("span");
+    //Rajouter classe .corb à containIcon
+    containIcon.classList.add("corb");
+    //Intégrer containIcon à l'élément DOM miniFigure
+    miniFigure.appendChild(containIcon);
 
-JavaScript :
+    //Création de l'icone corbeille
+    const trashIcon = document.createElement("i");
+    //Rajouter classe à l'icone corbeille
+    trashIcon.classList.add("fa-solid", "fa-trash-can");
+    //Intégrer trashIcone à containIcon
+    containIcon.appendChild(trashIcon);
+   
 
- 
-// Écouteur d'événement pour l'envoi du formulaire
-document.getElementById('monFormulaire').addEventListener('submit', function(event) {
-  event.preventDefault(); // Empêche le comportement par défaut du formulaire
+    trashIcon.addEventListener('click', async function() {
+        const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+imgId, {
+           method: 'DELETE',
+           headers: {
+               'Content-Type': 'application/json',
+               'Authorization': 'Bearer '+tokenRecupere                            
+           }  
+                              
+        }) 
+        
+       .then(response => {
+       if (response.ok) {               
+           const textMessDelete = document.createElement("p");
+           textMessDelete.id = "deletePhoto";
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);
+           miniFigure.remove();
+           figure.remove();
+           /* textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+           textMessDelete.style.color = "green";
+           textMessDelete.style.marginTop = "-40px"; */           
+           
+       } else {
+           const textMessDelete = document.createElement("p");
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);                        
+           textMessDelete.style.color = "red";
+           textMessDelete.style.marginTop = "-40px";
+           textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+       } 
+    })
+    .catch(error => console.error(error));        
+    
+       });
+      };
 
-  var imageInput = document.getElementById('imageInput');
-  var imageFile = imageInput.files[0]; // Récupère le premier fichier sélectionné par l'utilisateur
 
-  // Vérifie si une image a été sélectionnée
-  if (imageFile) {
-    // Crée un objet FormData pour envoyer le fichier
-    var formData = new FormData();
-    formData.append('image', imageFile);
 
-    // Envoyez le formData à votre serveur via AJAX ou toute autre méthode de votre choix
-    // ...
-  } else {
-    console.log('Aucune image sélectionnée');
-  }
-});
+       figure.id = "figure"+imgId;
+       img.src = imgUrl;
+       figcaption.innerText = imgTitle;
 
-Dans cet exemple, lorsque l'utilisateur soumet le formulaire, nous récupérons l'élément input de type file et accédons au fichier sélectionné en utilisant la propriété files. Le premier fichier est récupéré (si plusieurs fichiers ont été sélectionnés, vous pouvez parcourir l'objet files pour traiter chacun d'entre eux).
 
-Ensuite, nous créons un objet FormData pour stocker le fichier et l'envoyer au serveur. Vous pouvez ensuite envoyer ce formData en utilisant AJAX ou toute autre méthode d'envoi de données au serveur de votre choix.
 
-Assurez-vous de bien comprendre ce code et de l'adapter à vos besoins spécifiques.
+    const gallery = document.querySelector(".gallery");
+    //Création de la balise mini-figure
+    const figure = document.createElement("figure");
+    //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    figure.id = "figure"+imgId;
+    //Création de la balise figcaption
+    const figcaption = document.createElement("figcaption");
+    figcaption.style.marginTop = "7px";
+    //Création de la balise img (image)
+    const img = document.createElement("img");                
+    //Récupération source de l'image
+    img.src = imgUrl;
+    //Récupération texte de l'image
+    img.width = 346;
+    img.height = 416;
+    figcaption.innerText = imgTitle;     
+    //On rattache la balise figure a la balise (div class="gallery")
+    gallery.appendChild(figure);
+    //On rattache l'image et son texte à la balise figure
+    figure.appendChild(img); 
+    figure.appendChild(figcaption); 
 
-/</input>
+    
+    /* function modale1(){  */   
+    //Création de la balise mini-figure
+    const miniFigure = document.createElement("mini-figure");
+    //Rajouter classe à miniFigure
+    miniFigure.classList.add("mini-figure")                
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Permettra de supprimer ou rajouter une image
+    miniFigure.id = "miniFigure"+imgId;                
+    //Création du clone de l'image
+    const cloneImg = img.cloneNode(true)
+    //Rajouter classe à cloneImg
+    cloneImg.classList.add("cloneImg");                    
+    //On rattache la balise miniFigure a la balise miniGallery
+    miniGallery.appendChild(miniFigure);
 
-//*************************************************************************************** */
-//*************************************************************************************** */
+    //On rattache le clone de l'image à la balise miniFigure
+    miniFigure.appendChild(cloneImg); 
+    
+    //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
+    const containIcon = document.createElement("span");
+    //Rajouter classe .corb à containIcon
+    containIcon.classList.add("corb");
+    //Intégrer containIcon à l'élément DOM miniFigure
+    miniFigure.appendChild(containIcon);
 
-const formData = new FormData();
-formData.append('image', image.files[0]);
-formData.append('title', titre.value);
-formData.append('category', categorie.value);
-const reponse2 = await fetch ("http://localhost:5678/api/works", {
-    method: 'POST',
-    headers: {
-        'Authorization': 'Bearer '+token
-    },
-    body: formData
-})
+    //Création de l'icone corbeille
+    const trashIcon = document.createElement("i");
+    //Rajouter classe à l'icone corbeille
+    trashIcon.classList.add("fa-solid", "fa-trash-can");
+    //Intégrer trashIcone à containIcon
+    containIcon.appendChild(trashIcon);
+   
+
+    trashIcon.addEventListener('click', async function() {
+        const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+imgId, {
+           method: 'DELETE',
+           headers: {
+               'Content-Type': 'application/json',
+               'Authorization': 'Bearer '+tokenRecupere                            
+           }  
+                              
+        }) 
+        
+       .then(response => {
+       if (response.ok) {               
+           const textMessDelete = document.createElement("p");
+           textMessDelete.id = "deletePhoto";
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);
+           miniFigure.remove();
+           figure.remove();
+           /* textMessDelete.innerText = "Suppression ( " + (imgTitle) + " ) réussie"; 
+           textMessDelete.style.color = "green";
+           textMessDelete.style.marginTop = "-40px"; */           
+           
+       } else {
+           const textMessDelete = document.createElement("p");
+           const line = document.querySelector(".line");
+           line.appendChild(textMessDelete);                        
+           textMessDelete.style.color = "red";
+           textMessDelete.style.marginTop = "-40px";
+           textMessDelete.innerText = (`Erreur ${response.status}: ${response.statusText}`); // Statut d'erreur
+       } 
+    })
+    .catch(error => console.error(error));        
+    
+       });
