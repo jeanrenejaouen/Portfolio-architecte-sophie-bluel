@@ -1,5 +1,3 @@
-
-
 /* Fonction qui permettra de modifier le DOM une fois appelée */
 function afficherGallery(tableTravaux){
         /* Rafraichissement de la page pour éviter le rajout à la suite */    
@@ -7,11 +5,9 @@ function afficherGallery(tableTravaux){
         //Récupération de l'élément du DOM qui accueillera les articles
         const gallery = document.querySelector(".gallery");
         gallery.innerHTML = '';
-
-
     
     tableTravaux.forEach(article => {  
-        //Création de la balise mini-figure
+        //Création de la balise figure
         const figure = document.createElement("figure");
         //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
         //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
@@ -615,8 +611,8 @@ const selectedFile = event.target.files[0]; // récupérer le fichier sélection
 .then(data => {
     const imgId = data.id;
     const imgUrl = data.imageUrl;
-    const imgTitle = data.title;     
-    
+    const imgTitle = data.title;
+       
     /* textMessAdded.innerText = "Ajout ( " + (imgTitle) + " ) réussie";
     textMessAdded.style.color = "green"; */
     const gallery = document.querySelector(".gallery");
