@@ -572,8 +572,7 @@ OpenModale2.addEventListener("click", function(event) {
         const reponseAjout = await fetch ("http://localhost:5678/api/works/",{
             method: 'POST',
             headers: {             
-                'Authorization': 'Bearer '+tokenRecupere 
-                    
+                'Authorization': 'Bearer '+tokenRecupere                     
                 },                 
             body: formData 
             
