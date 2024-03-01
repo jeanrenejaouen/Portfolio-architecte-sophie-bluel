@@ -1,6 +1,8 @@
-
+// Appel div gallery pour la fonction suivante (afficher1travaux)
 const gallery = document.querySelector(".gallery");
-
+// Création fonction pour afficher et supprimer un travaux
+// Cette fonction va être réutilisée ligne 100 pour afficher tous les travaux gallerie et modale via recupTravaux()
+// et ligne 578 pour afficher et supprimer un travaux supplémentaire dans modale et DOM
 function afficher1travaux(travaux) {
     const figure = document.createElement("figure");
     //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
@@ -14,19 +16,21 @@ function afficher1travaux(travaux) {
     const img = document.createElement("img");                
     //Récupération source de l'image
     img.src = travaux.imageUrl;
-    //Récupération texte de l'image
+    // Définition de la taille de l'image
     img.width = 346;
     img.height = 416;
+    // Ajouter texte dans figcaption pour commenter l'image gallerie
     figcaption.innerText = travaux.title;     
     //On rattache la balise figure a la balise (div class="gallery")
     gallery.appendChild(figure);
     //On rattache l'image et son texte à la balise figure
     figure.appendChild(img); 
-    figure.appendChild(figcaption); 
+    figure.appendChild(figcaption);
+    // Création de la balise mini-figure 
     const miniFigure = document.createElement("mini-figure");
     //Rajouter classe à miniFigure
     miniFigure.classList.add("mini-figure")                
-    //Rajoute un Id à figure dans le DOM suite à boucle travaux dans balise article
+    //Rajoute un Id à figure dans le DOM suite à boucle travaux 
     //Permettra de supprimer ou rajouter une image
     miniFigure.id = "miniFigure"+travaux.id;                
     //Création du clone de l'image
@@ -34,25 +38,23 @@ function afficher1travaux(travaux) {
     //Rajouter classe à cloneImg
     cloneImg.classList.add("cloneImg");                    
     //On rattache la balise miniFigure a la balise miniGallery
-    miniGallery.appendChild(miniFigure);
-    
+    miniGallery.appendChild(miniFigure);    
     //On rattache le clone de l'image à la balise miniFigure
-    miniFigure.appendChild(cloneImg); 
-   
+    miniFigure.appendChild(cloneImg);   
     //Création de la balise span dans DOM qui recevra trashIcon(icone corbeille)
     const containIcon = document.createElement("span");
     //Rajouter classe .corb à containIcon
     containIcon.classList.add("corb");
     //Intégrer containIcon à l'élément DOM miniFigure
-    miniFigure.appendChild(containIcon);
-   
+    miniFigure.appendChild(containIcon);   
     //Création de l'icone corbeille
     const trashIcon = document.createElement("i");
-    //Rajouter classe à l'icone corbeille
+    //Rajouter classes à l'icone corbeille
     trashIcon.classList.add("fa-solid", "fa-trash-can");
     //Intégrer trashIcone à containIcon
     containIcon.appendChild(trashIcon);
 
+    // Appel API Works pour supprimer un travaux quand on clique sur l'icone corbeille de l'image
     trashIcon.addEventListener('click', async function() {
         const reponseSuppression = await fetch ("http://localhost:5678/api/works/"+travaux.id, {
         method: 'DELETE',
@@ -94,10 +96,8 @@ function afficherGallery(tableTravaux){
     const gallery = document.querySelector(".gallery");
     gallery.innerHTML = '';
 
-    tableTravaux.forEach(article => {     
-   
-    afficher1travaux(article);  
-
+    tableTravaux.forEach(article => {    
+    afficher1travaux(article);
     });  
   
 };
@@ -108,7 +108,7 @@ async function recupTravaux() {
     const reponse = await fetch ("http://localhost:5678/api/works");
     const travaux = await reponse.json();  
 
-    console.log(travaux); 
+    /* console.log(travaux);  */
 
     /* Rappel fonction "afficherGallery" qui prépare la modification du DOM avec les éléments de l'API*/   
     afficherGallery(travaux);
@@ -288,12 +288,9 @@ OpenModale2.addEventListener("click", function(event) {
         //Rajouter classe à l'icone picture
         pictureIcon.classList.add("fa-regular", "fa-image");
         pictureIcon.style.marginTop = "-200px";
-        /* formAjoutPhoto.appendChild(pictureIcon); */
-        //Modifier le style du bouton Ajouter photo
         
-        const btnValider = document.getElementById("ajouterPhoto");
-        /* btnValider.value = "valider";                    
-        btnValider.id = ""; */
+        //Modifier le style du bouton Ajouter photo        
+        const btnValider = document.getElementById("ajouterPhoto");       
         const buttonValider = document.createElement("button");                   
         buttonValider.innerText = "valider";
         const buttonEvo = document.createElement("input");
@@ -301,7 +298,8 @@ OpenModale2.addEventListener("click", function(event) {
         buttonEvo.id = "envoiApi";
         buttonEvo.value = "valider";
         buttonValider.classList.add("button-valider");
-        
+
+        // Remplacer btnValider par buttonValider
         btnValider.replaceWith(buttonValider);                                  
 
         // Créer l'élément input (+ Ajouter photo)
@@ -310,12 +308,12 @@ OpenModale2.addEventListener("click", function(event) {
         ajouterPhoto.setAttribute('type', 'submit');                                        
         // Définir la valeur du bouton
         ajouterPhoto.setAttribute('value', '+ Ajouter photo');
-        ajouterPhoto.id = "ajout-photo";                
-
+        ajouterPhoto.id = "ajout-photo";
         //Créer l'élément p (jpg, png : 4mo max)
         const commentAjout = document.createElement("p");
         //Ajouter le contenu texte (jpg, png : 4mo max)
         commentAjout.innerText = "jpg, png : 4mo max";
+        // Gérer le style de commentAjout
         commentAjout.style.marginBottom = "50px";
         commentAjout.style.marginTop = "-1px";
         commentAjout.style.fontSize = "10px";                                    
@@ -346,16 +344,15 @@ OpenModale2.addEventListener("click", function(event) {
         titreInput.setAttribute("type", "text");
         titreInput.setAttribute("id", "titreMod2");
         titreInput.setAttribute("name", "title");
-        titreInput.setAttribute("value", "");
-        
+        titreInput.setAttribute("value", "");        
 
         // Créer l'élément label categorieLabel
         const categorieLabel = document.createElement("label");
-            // Définir l'attribut de titreLabel 
-            categorieLabel.setAttribute("for", "categorieMod2");//categorie
-            // Définir le texte de titreLabel
-            categorieLabel.textContent = "Catégorie";
-            categorieLabel.setAttribute("id", "categLabM2");
+        // Définir l'attribut de titreLabel 
+        categorieLabel.setAttribute("for", "categorieMod2");//categorie
+        // Définir le texte de titreLabel
+        categorieLabel.textContent = "Catégorie";
+        categorieLabel.setAttribute("id", "categLabM2");
 
         // Créez l'élément select categorieSelect
         const categorieSelect = document.createElement("select");                    
@@ -375,10 +372,12 @@ OpenModale2.addEventListener("click", function(event) {
         option3.textContent = "Hôtels & restaurants";
         option3.value = 3;
 
+        // Création de l'élément insertImage (rectangle gris modale 2)
         const insertImage = document.createElement("div");
+        // Ajout class à insertImage pour gestion style dans CSS
         insertImage.classList.add("insert-image");   
         
-        // Ajoutez l'input et select au formulaire (formAjoutPhoto)
+        // Ajoutez les éléments au formulaire (formAjoutPhoto)
         formAjoutPhoto.appendChild(insertImage);
         formAjoutPhoto.appendChild(pictureIcon);
         formAjoutPhoto.appendChild(ajouterPhoto);
@@ -386,16 +385,12 @@ OpenModale2.addEventListener("click", function(event) {
         formAjoutPhoto.appendChild(titreLabel);
         formAjoutPhoto.appendChild(titreInput);
         formAjoutPhoto.appendChild(categorieLabel);
-        formAjoutPhoto.appendChild(categorieSelect);
-                            
+        formAjoutPhoto.appendChild(categorieSelect);                            
         categorieSelect.appendChild(option0);
         categorieSelect.appendChild(option1);
         categorieSelect.appendChild(option2);
         categorieSelect.appendChild(option3);
-
-        const selectElement = document.getElementById("mySelect");
-
-
+        
     //******************************************************************************** */
     //         **********CONDITIONS POUR PASSER AU VERT LE BOUTON VALIDER*******
     //******************************************************************************** */
@@ -403,34 +398,29 @@ OpenModale2.addEventListener("click", function(event) {
         categorieSelect.addEventListener("change", function() {
             // Vérification si une option de catégorie est sélectionnée 
             // Et si un titre et une image sont présente (le titre étant récupéré avec l'image)
-
             if (categorieSelect.value  && titreInput.value) {
-                // Changer la couleur du bouton submit
-                /* document.querySelector(".button-valider").style.backgroundColor = "#1D6154"; */
+                // Passer au bouton vert actif               
                 buttonValider.replaceWith(buttonEvo);                
 
             } else {
-                // Réinitialiser la couleur du bouton submit
-                /* buttonValider.style.backgroundColor = ""; */
+                // Sinon revenir sur bouton gris inactif                
                 buttonEvo.replaceWith(buttonValider);
             }
-        });                    
-            
+        });            
 
         const line = document.querySelector(".line");
         line.style.marginTop = "47px";
-        // Supprime le message à la suite de la suppression d'une photo
+        // Réinitialise la zone du message d'erreur rouge
         line.innerHTML = "";
 
         // Récupérer le bouton (+ Ajouter photo) avec l'ID "ajout-photo"
         const ajoutImgMod2 = document.getElementById("ajout-photo");
-
         
-        // Écouter l'événement de click sur bouton (+ Ajouter photo)
+        // Écouter l'événement de click sur bouton (+ Ajouter photo) du rectangle gris
         ajoutImgMod2.addEventListener("click", function(event) {            
             event.preventDefault();                
                 
-            //Création de la balise input avec ses attributs (imgMod2)
+            //Création de la balise input de l'image modale 2 avec ses attributs
             const imgMod2 = document.createElement("input"); 
             imgMod2.id = "imgMod2";                
             imgMod2.type = "file";
@@ -496,13 +486,10 @@ OpenModale2.addEventListener("click", function(event) {
                                         
         // Ajouter l'image en tant que premier enfant de insertImage                
         const firstChildElement = insertImage.firstChild;
-        insertImage.insertBefore(image, firstChildElement);
-                    
+        insertImage.insertBefore(image, firstChildElement);                    
 
-        // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée
-                    
-        imgMod2.style.display = "none";                
-                            
+        // Ce code permet de supprimer le bouton "choisir un fichier" quand une image est sélectionnée                    
+        imgMod2.style.display = "none";                           
 
     }); 
 
@@ -537,6 +524,7 @@ OpenModale2.addEventListener("click", function(event) {
             retourIcon.remove();            
             miniGallery.style.display = "";
             const textMessFormatImage = document.getElementById("addPhoto");
+            // Si pas de message d'erreur de format d'image passer le texte en blanc pour le rendre invisible 
             if (textMessFormatImage !==null){
                 textMessFormatImage.style.color = "white"
             };
@@ -589,7 +577,7 @@ OpenModale2.addEventListener("click", function(event) {
         .then(article => {    
             afficher1travaux(article);        
             })
-            
+        // la fonction retourFleche permet de revenir sur miniGallerie après l'ajout réussi d'une image    
         retourFleche();  
         
         
