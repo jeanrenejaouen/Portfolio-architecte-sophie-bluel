@@ -1,13 +1,9 @@
 console.log("sophie.bluel@test.tld")
 console.log("S0phie")
 
-
-
 // Récupération des éléments HTML
-
-const submitBtn = document.querySelector(".log-btn")
-
-const loginError = document.querySelector(".login-error")
+const submitBtn = document.querySelector(".log-btn");
+const loginError = document.querySelector(".login-error");
 
 let emailInput = "";
 let passwordInput = "";
@@ -22,7 +18,7 @@ submitBtn.addEventListener("click", async (e) => {
     const password = document.getElementById("password").value;
     let user = { "email": email, "password": password};
     
-    console.log(user);   
+    /* console.log(user); */   
 
     //Création de la charge utile au format JSON
     const chargeUtile = JSON.stringify(user);
@@ -37,22 +33,19 @@ submitBtn.addEventListener("click", async (e) => {
     
     .then((reponse)=>reponse.json())
     
-    .then((data)=>{
-        console.log(data)
-        
+    .then((data)=>{       
         //Vu avec frederic le 23 01 2024 
         //Retourne le message en cas de mauvais mail ou mot passe
-        console.log(data.message);
+        /* console.log(data.message); */
         //Retourne le token quand le couple email mot de passe est ok        
-        console.log(data.token);
+        /* console.log(data.token); */
         
-        const userId = data.userId
-        
+        const userId = data.userId        
 
         if(userId === 1){  
             window.sessionStorage.setItem("token", data.token);                     
             const tokenRecupere = window.sessionStorage.getItem("token");
-            console.log(tokenRecupere);
+            /* console.log(tokenRecupere); */
             
             // Autoriser l'accès à la page restreinte
             window.location.href = 'index.html';
