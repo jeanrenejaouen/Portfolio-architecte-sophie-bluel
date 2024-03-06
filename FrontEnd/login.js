@@ -4,16 +4,16 @@ console.log("S0phie")
 // Récupération des éléments HTML
 const submitBtn = document.querySelector(".log-btn");
 const loginError = document.querySelector(".login-error");
-
+// Permet d'avoir les champs de saisie vides
 let emailInput = "";
 let passwordInput = "";
 
-//Événement de clic sur le bouton de soumission du formulaire de connexion. 
+// Ecouteur d'événement de clic sur le bouton de soumission du formulaire de connexion. 
 submitBtn.addEventListener("click", async (e) => {
     // Désactivation du comportement par défaut du navigateur
     e.preventDefault()
 
-    // Création de l'objet user avec email et password    
+    // Création de l'objet user avec email et password saisis   
     const email = document.getElementById("email").value;    
     const password = document.getElementById("password").value;
     let user = { "email": email, "password": password};
@@ -30,7 +30,7 @@ submitBtn.addEventListener("click", async (e) => {
             body: chargeUtile,          
         })
 
-    
+    // Transforme la réponse en format json
     .then((reponse)=>reponse.json())
     
     .then((data)=>{       
@@ -39,11 +39,17 @@ submitBtn.addEventListener("click", async (e) => {
         /* console.log(data.message); */
         //Retourne le token quand le couple email mot de passe est ok        
         /* console.log(data.token); */
-        
+
+        // Dans la réponse on récupère l'Id de l'utilisateur et on stocke dans variable userId
         const userId = data.userId        
 
         if(userId === 1){  
-            window.sessionStorage.setItem("token", data.token);                     
+            // permet de stocker un token dans le sessionStorage du navigateur. Le token est associé à la clé "token",
+            // et sa valeur est extraite de la variable "data.token".
+            // Cette manipulation permet de conserver le token en mémoire dans le navigateur, 
+            // ce qui peut être utile pour l'authentification et l'accès à certaines ressources protégées.
+            window.sessionStorage.setItem("token", data.token);
+            // Récupère la valeur du token stocké dans la sessionStorage du navigateur et la stocke dans une constante appelée tokenRecupere.                     
             const tokenRecupere = window.sessionStorage.getItem("token");
             /* console.log(tokenRecupere); */
             

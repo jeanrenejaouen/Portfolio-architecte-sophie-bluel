@@ -1,8 +1,8 @@
 // Appel div gallery pour la fonction suivante (afficher1travaux)
 const gallery = document.querySelector(".gallery");
 // Création fonction pour afficher et supprimer un travaux
-// Cette fonction va être réutilisée ligne 100 pour afficher tous les travaux gallerie et modale via recupTravaux()
-// et ligne 578 pour afficher et supprimer un travaux supplémentaire dans modale et DOM
+// Cette fonction va être réutilisée pour afficher tous les travaux gallerie et modale via recupTravaux()
+// et ligne 599 pour afficher et supprimer un travaux supplémentaire dans modale et DOM
 function afficher1travaux(travaux) {
     const figure = document.createElement("figure");
     //Vu avec frederic le 23 01 2024 et vérif dans swagger(API Works:Id)
@@ -26,7 +26,7 @@ function afficher1travaux(travaux) {
     //On rattache l'image et son texte à la balise figure
     figure.appendChild(img); 
     figure.appendChild(figcaption);
-    // Création de la balise mini-figure 
+    // Création de la balise mini-figure pour la modale 1
     const miniFigure = document.createElement("mini-figure");
     //Rajouter classe à miniFigure
     miniFigure.classList.add("mini-figure")                
@@ -90,13 +90,15 @@ function afficher1travaux(travaux) {
     
 /* Fonction qui permettra de modifier le DOM une fois appelée */
 function afficherGallery(tableTravaux){
-    /* Rafraichissement de la page pour éviter le rajout à la suite */    
+    //Récupération de l'élément avec classe mini-gallery qui accueillera les articles 
+    //Et on vide le contenu pour éviter le rajout à la suite   
     document.querySelector(".mini-gallery").innerHTML = '';
-    //Récupération de l'élément du DOM qui accueillera les articles
+    //Récupération de l'élément avec classe gallery qui accueillera les articles
     const gallery = document.querySelector(".gallery");
+    // on vide le contenu pour éviter le rajout à la suite
     gallery.innerHTML = '';
-
-    tableTravaux.forEach(article => {    
+    // On liste tous les travaux (article). Ici on affiche qu'un travaux avec l'argument article
+    tableTravaux.forEach(article => {        
     afficher1travaux(article);
     });  
   
@@ -110,14 +112,17 @@ async function recupTravaux() {
 
     /* console.log(travaux);  */
 
-    /* Rappel fonction "afficherGallery" qui prépare la modification du DOM avec les éléments de l'API*/   
+    /* Rappel fonction "afficherGallery" qui prépare la modification du DOM avec la réponse de l'API (travaux ligne 111)*/
+    // Ici on affiche tous les travaux avec l'argument travaux   
     afficherGallery(travaux);
 
     /* Fonction qui déselectionne tous les boutons tout en conservant leur style */
     function styleBtnFiltreActif() {
         const listeBtn = document.getElementsByClassName("btn");
+        // On fait une boucle pour récupérer tous les boutons
         for (let i=0; i<listeBtn.length; i++){
         /* console.log (listeBtn[i]); */
+        // On les sélectionne un par un (car taille différente) pour les déselectionner (on enlève la classe "btn__selected")
         listeBtn[0].className="btn btn__tous";
         listeBtn[1].className="btn btn__objets";
         listeBtn[2].className="btn btn__appartements";
@@ -127,58 +132,74 @@ async function recupTravaux() {
         
 
     /* BOUTON FILTRE TOUS */
-    const btnTous = document.querySelector(".btn__tous");                        
+    const btnTous = document.querySelector(".btn__tous"); 
+    // Ecouteur d'évènement Au click sur btnTous on demande à filtrer les éléments avec catégorie 1,2 et 3 
+    // Du retour de l'appel à l'API soit travaux (voir ligne 111)                       
     btnTous.addEventListener ("click", function(){         
         let listTous = travaux.filter (element => {
             return element.categoryId === 1, 2, 3                      
         }) 
-        
-        afficherGallery(listTous);        
+        // Affiche les éléments de la galerie avec l'argument listTous
+        afficherGallery(listTous);
+        // Rappel de la fonction déselctionner tous les boutons        
         styleBtnFiltreActif();
+        // Sélectionne btnTous au click en rajoutant le classe "btn__selected"
         btnTous.classList.add("btn__selected");  
     });
 
     /* BOUTON FILTRE OBJETS */
-    const btnObjet = document.querySelector(".btn__objets");                        
+    const btnObjet = document.querySelector(".btn__objets"); 
+    // Au click sur btnObjet on demande à filtrer les éléments avec catégorie 1 
+    // Du retour de l'appel à l'API soit travaux (voir ligne 111)                       
     btnObjet.addEventListener ("click", function() {               
         let listObjet = travaux.filter(element => {
         return element.categoryId === 1        
         });    
-        
+        // Affiche les éléments de la galerie avec l'argument listObjet
         afficherGallery(listObjet);
+        // Rappel de la fonction déselctionner tous les boutons
         styleBtnFiltreActif();
+        // Sélectionne btnObjet au click en rajoutant le classe "btn__selected"
         btnObjet.classList.add("btn__selected");                
     });
 
 
     /* BOUTON FILTRE APPARTEMENTS */
-    const btnAppartement = document.querySelector(".btn__appartements");                        
+    const btnAppartement = document.querySelector(".btn__appartements");
+    // Au click sur btnObjet on demande à filtrer les éléments avec catégorie 2 
+    // Du retour de l'appel à l'API soit travaux (voir ligne 111)                         
     btnAppartement.addEventListener ("click", function(){        
         let listAppartement = travaux.filter (element => {
             return element.categoryId === 2                
         }) 
-        
+        // Affiche les éléments de la galerie avec l'argument listAppartement
         afficherGallery(listAppartement);
+        // Rappel de la fonction déselctionner tous les boutons
         styleBtnFiltreActif();
+        // Sélectionne btnAppartement au click en rajoutant le classe "btn__selected"
         btnAppartement.classList.add("btn__selected");
     });
 
     /* BOUTON FILTRE HOTELS ET RESTAURANTS */
-    const btnHotel = document.querySelector(".btn__hotel");                       
+    const btnHotel = document.querySelector(".btn__hotel"); 
+    // Au click sur btnObjet on demande à filtrer les éléments avec catégorie 3 
+    // Du retour de l'appel à l'API soit travaux (voir ligne 111)                       
     btnHotel.addEventListener ("click", function(){         
         let listHotel = travaux.filter (element => {
             return element.categoryId === 3       
         }) 
-        
+        // Affiche les éléments de la galerie avec l'argument listHotel
         afficherGallery(listHotel);
+        // Rappel de la fonction déselctionner tous les boutons
         styleBtnFiltreActif();
+        // Sélectionne btnHotel au click en rajoutant le classe "btn__selected"
         btnHotel.classList.add("btn__selected"); 
     });  
 
 
 };    
 
-/* Rappel de la fonction pour réaliser la modification du DOM */
+/* Rappel de la fonction pour réaliser la modification du DOM de la galerie et mini-galerie */
 recupTravaux();
 
    
@@ -538,21 +559,27 @@ OpenModale2.addEventListener("click", function(event) {
     //             ***ENVOI NOUVEAUX TRAVAUX A L'API VIA FORMULAIRE***
     //             ***SUPPRESSION POSSIBLE SANS RAFRAICHIR***
     //*******************************************************************************************/
-
+    // Ecouter l'évènement au click sur bouton valider quand il est vert
     buttonEvo.addEventListener("click", async function(event) {
+        // Désactivation du comportement par défaut du navigateur
         event.preventDefault();  
         
         buttonEvo.replaceWith(buttonValider);   
-        
+        // Récupère la valeur du token stocké dans la sessionStorage
         const tokenRecupere = window.sessionStorage.getItem("token");
-        const image = document.getElementById("imgMod2");    
+        // Récupérer l'input de l'image ligne 444
+        const image = document.getElementById("imgMod2");
+        // Créer la possibilité d'un texte pour le message d'erreur    
         const textMessAdded = document.createElement("p");
         textMessAdded.id = "addPhoto";
         const line = document.querySelector(".line");
         line.appendChild(textMessAdded);
         textMessAdded.style.marginTop = "-30px";
 
+        // Création formulaire pour envoi à l'API
         const formData = new FormData();
+        //Ajout un élément appelé "image" à un objet de formulaire (formData)
+        // en y insérant le premier fichier sélectionné dans un champ de fichier de type input de type fichier avec l'ID "image"
         formData.append("image", image.files[0]);
         formData.append("title", titreInput.value);        
         formData.append("category", categorieSelect.value);
@@ -574,10 +601,11 @@ OpenModale2.addEventListener("click", function(event) {
                 textMessAdded.innerText = (`Erreur ${reponseAjout.status}: ${reponseAjout.statusText}`);
             } 
         })
-        .then(article => {    
+        .then(article => { 
+            // Rappel de la fonction qui permet d'afficher un nouveau travaux et de supprimer sans devoir raffraichir   
             afficher1travaux(article);        
             })
-        // la fonction retourFleche permet de revenir sur miniGallerie après l'ajout réussi d'une image    
+        // la fonction retourFleche permet de revenir sur miniGallerie (modale 1) après l'ajout réussi d'une image    
         retourFleche();  
         
         
